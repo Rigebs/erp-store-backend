@@ -10,8 +10,6 @@ public class ProductRequest {
     private String description;
     private double purchasePrice;
     private double salePrice;
-    private boolean status;
-    private boolean flag;
     private Long brandId;
     private Long unitMeasureId;
     private Long categoryId;

@@ -1,7 +1,9 @@
 package com.rige.mappers;
 
 import com.rige.dto.LineDto;
+import com.rige.dto.request.LineRequest;
 import com.rige.entities.LineEntity;
+import com.rige.models.Line;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -20,6 +22,29 @@ public class LineMapper {
                 .description(entity.getDescription())
                 .status(entity.isStatus())
                 .flag(entity.isFlag())
+                .build();
+    }
+
+    public Line toDomain(LineEntity entity) {
+        if (entity == null) {
+            return null;
+        }
+        return Line.builder()
+                .id(entity.getId())
+                .name(entity.getName())
+                .description(entity.getDescription())
+                .status(entity.isStatus())
+                .flag(entity.isFlag())
+                .build();
+    }
+
+    public LineEntity toDbo(LineRequest lineRequest) {
+        if (lineRequest == null) {
+            return null;
+        }
+        return LineEntity.builder()
+                .name(lineRequest.getName())
+                .description(lineRequest.getDescription())
                 .build();
     }
 

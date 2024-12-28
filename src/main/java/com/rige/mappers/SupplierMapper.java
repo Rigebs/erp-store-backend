@@ -1,7 +1,9 @@
 package com.rige.mappers;
 
 import com.rige.dto.SupplierDto;
+import com.rige.dto.request.SupplierRequest;
 import com.rige.entities.SupplierEntity;
+import com.rige.models.Supplier;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -24,6 +26,37 @@ public class SupplierMapper {
                 .website(entity.getWebsite())
                 .status(entity.isStatus())
                 .flag(entity.isFlag())
+                .build();
+    }
+
+    public Supplier toDomain(SupplierEntity entity) {
+        if (entity == null) {
+            return null;
+        }
+        return Supplier.builder()
+                .id(entity.getId())
+                .name(entity.getName())
+                .contactName(entity.getContactName())
+                .contactEmail(entity.getContactEmail())
+                .phoneNumber(entity.getPhoneNumber())
+                .address(entity.getAddress())
+                .website(entity.getWebsite())
+                .status(entity.isStatus())
+                .flag(entity.isFlag())
+                .build();
+    }
+
+    public SupplierEntity toDbo(SupplierRequest supplierRequest) {
+        if (supplierRequest == null) {
+            return null;
+        }
+        return SupplierEntity.builder()
+                .name(supplierRequest.getName())
+                .contactName(supplierRequest.getContactName())
+                .contactEmail(supplierRequest.getContactEmail())
+                .phoneNumber(supplierRequest.getPhoneNumber())
+                .address(supplierRequest.getAddress())
+                .website(supplierRequest.getWebsite())
                 .build();
     }
 

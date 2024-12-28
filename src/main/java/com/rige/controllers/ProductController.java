@@ -3,6 +3,7 @@ package com.rige.controllers;
 import com.rige.dto.ProductDto;
 import com.rige.dto.request.ProductRequest;
 import com.rige.dto.response.ApiResponse;
+import com.rige.models.Product;
 import com.rige.services.IProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,12 +27,17 @@ public class ProductController {
 
     @GetMapping
     public ResponseEntity<List<ProductDto>> findAll() {
-        List<ProductDto> products = productService.findAllActive();
+        List<ProductDto> products = productService.findAll();
         return ResponseEntity.ok(products);
     }
 
+    @GetMapping("/active")
+    public ResponseEntity<List<ProductDto>> findAllActive() {
+        return ResponseEntity.ok(productService.findAllActive());
+    }
+
     @GetMapping("/{id}")
-    public ResponseEntity<ProductDto> findById(@PathVariable Long id) {
+    public ResponseEntity<Product> findById(@PathVariable Long id) {
         return ResponseEntity.ok(productService.findById(id));
     }
 
@@ -45,5 +51,12 @@ public class ProductController {
     public ResponseEntity<ApiResponse> delete(@PathVariable Long id) {
         productService.delete(id);
         return ResponseEntity.ok(new ApiResponse("Producto eliminado"));
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<ApiResponse> toggleStatus(@PathVariable Long id) {
+        System.out.println("LLEGO AQUI: " + id);
+        productService.toggleStatus(id);
+        return ResponseEntity.ok(new ApiResponse("Estado actualizado"));
     }
 }

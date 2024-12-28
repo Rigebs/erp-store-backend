@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface ISupplierRepository extends JpaRepository<SupplierEntity, Long> {
     List<SupplierEntity> findByFlag(boolean flag);
+    List<SupplierEntity> findByStatusAndFlag(boolean status, boolean flag);
 }

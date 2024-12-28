@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface ILineRepository extends JpaRepository<LineEntity, Long> {
     List<LineEntity> findByFlag(boolean flag);
+    List<LineEntity> findByStatusAndFlag(boolean status, boolean flag);
 }

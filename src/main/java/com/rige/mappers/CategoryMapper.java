@@ -1,7 +1,9 @@
 package com.rige.mappers;
 
 import com.rige.dto.CategoryDto;
+import com.rige.dto.request.CategoryRequest;
 import com.rige.entities.CategoryEntity;
+import com.rige.models.Category;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -20,6 +22,29 @@ public class CategoryMapper {
                 .description(entity.getDescription())
                 .status(entity.isStatus())
                 .flag(entity.isFlag())
+                .build();
+    }
+
+    public Category toDomain(CategoryEntity entity) {
+        if (entity == null) {
+            return null;
+        }
+        return Category.builder()
+                .id(entity.getId())
+                .name(entity.getName())
+                .description(entity.getDescription())
+                .status(entity.isStatus())
+                .flag(entity.isFlag())
+        .build();
+    }
+
+    public CategoryEntity toDbo(CategoryRequest categoryRequest) {
+        if (categoryRequest == null) {
+            return null;
+        }
+        return CategoryEntity.builder()
+                .name(categoryRequest.getName())
+                .description(categoryRequest.getDescription())
                 .build();
     }
 

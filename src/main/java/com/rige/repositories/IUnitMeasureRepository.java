@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface IUnitMeasureRepository extends JpaRepository<UnitMeasureEntity, Long> {
     List<UnitMeasureEntity> findByFlag(boolean flag);
+    List<UnitMeasureEntity> findByStatusAndFlag(boolean status, boolean flag);
 }

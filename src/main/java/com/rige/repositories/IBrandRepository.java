@@ -10,4 +10,5 @@ import java.util.List;
 public interface IBrandRepository extends JpaRepository<BrandEntity, Long> {
     List<BrandEntity> findByFlag(boolean flag);
 
+    List<BrandEntity> findByStatusAndFlag(boolean status, boolean flag);
 }

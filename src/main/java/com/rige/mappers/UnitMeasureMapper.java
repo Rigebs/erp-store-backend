@@ -1,7 +1,9 @@
 package com.rige.mappers;
 
 import com.rige.dto.UnitMeasureDto;
+import com.rige.dto.request.UnitMeasureRequest;
 import com.rige.entities.UnitMeasureEntity;
+import com.rige.models.UnitMeasure;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -15,6 +17,31 @@ public class UnitMeasureMapper {
             return null;
         }
         return UnitMeasureDto.builder()
+                .id(entity.getId())
+                .name(entity.getName())
+                .abbreviation(entity.getAbbreviation())
+                .description(entity.getDescription())
+                .status(entity.isStatus())
+                .flag(entity.isFlag())
+                .build();
+    }
+
+    public UnitMeasureEntity toDbo(UnitMeasureRequest unitMeasureRequest) {
+        if (unitMeasureRequest == null) {
+            return null;
+        }
+        return UnitMeasureEntity.builder()
+                .name(unitMeasureRequest.getName())
+                .abbreviation(unitMeasureRequest.getAbbreviation())
+                .description(unitMeasureRequest.getDescription())
+                .build();
+    }
+
+    public UnitMeasure toDomain(UnitMeasureEntity entity) {
+        if (entity == null) {
+            return null;
+        }
+        return UnitMeasure.builder()
                 .id(entity.getId())
                 .name(entity.getName())
                 .abbreviation(entity.getAbbreviation())

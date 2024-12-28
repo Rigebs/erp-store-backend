@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 public class ProductDtoMapper {
 
     public ProductDto toDto(Product product) {
-        System.out.println("PRODUCT: " + product);
         return ProductDto.builder()
                 .id(product.getId())
                 .name(product.getName())
@@ -29,7 +28,6 @@ public class ProductDtoMapper {
     }
 
     public List<ProductDto> toDtoList(List<Product> products) {
-        System.out.println("LISTA MODEL: " + products);
         return products.stream()
                 .map(this::toDto)
                 .collect(Collectors.toList());

@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface ICategoryRepository extends JpaRepository<CategoryEntity, Long> {
     List<CategoryEntity> findByFlag(boolean flag);
+    List<CategoryEntity> findByStatusAndFlag(boolean status, boolean flag);
+
 }

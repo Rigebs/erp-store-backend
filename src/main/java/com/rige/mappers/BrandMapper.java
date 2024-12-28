@@ -1,7 +1,9 @@
 package com.rige.mappers;
 
 import com.rige.dto.BrandDto;
+import com.rige.dto.request.BrandRequest;
 import com.rige.entities.BrandEntity;
+import com.rige.models.Brand;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -20,6 +22,29 @@ public class BrandMapper {
                 .description(entity.getDescription())
                 .status(entity.isStatus())
                 .flag(entity.isFlag())
+                .build();
+    }
+
+    public Brand toDomain(BrandEntity entity) {
+        if (entity == null) {
+            return null;
+        }
+        return Brand.builder()
+                .id(entity.getId())
+                .name(entity.getName())
+                .description(entity.getDescription())
+                .status(entity.isStatus())
+                .flag(entity.isFlag())
+                .build();
+    }
+
+    public BrandEntity toDbo(BrandRequest brandRequest) {
+        if (brandRequest == null) {
+            return null;
+        }
+        return BrandEntity.builder()
+                .name(brandRequest.getName())
+                .description(brandRequest.getDescription())
                 .build();
     }
 

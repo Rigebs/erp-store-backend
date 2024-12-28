@@ -7,6 +7,7 @@ import com.rige.exceptions.ResourceNotFoundException;
 import com.rige.mappers.ProductDboMapper;
 import com.rige.mappers.ProductDomainMapper;
 import com.rige.mappers.ProductDtoMapper;
+import com.rige.models.Product;
 import com.rige.repositories.IProductRepository;
 import com.rige.services.IProductService;
 import lombok.AllArgsConstructor;
@@ -25,29 +26,29 @@ public class ProductServiceImpl implements IProductService {
 
     @Override
     public void save(ProductRequest productRequest) {
-        productRequest.setStatus(true);
-        productRequest.setFlag(true);
         var product = productDomainMapper.toDomain(productRequest);
+        product.setStatus(true);
+        product.setFlag(true);
         iProductRepository.save(productDboMapper.toDbo(product));
     }
 
     @Override
     public List<ProductDto> findAll() {
-        var products = productDomainMapper.toDomainList(iProductRepository.findAll());
-        return productDtoMapper.toDtoList(products);
-    }
-
-    @Override
-    public List<ProductDto> findAllActive() {
         var products = productDomainMapper.toDomainList(iProductRepository.findByFlag(true));
         return productDtoMapper.toDtoList(products);
     }
 
     @Override
-    public ProductDto findById(Long id) {
+    public List<ProductDto> findAllActive() {
+        return productDtoMapper.toDtoList(productDomainMapper.toDomainList(iProductRepository.findByStatusAndFlag(true, true)));
+    }
+
+    @Override
+    public Product findById(Long id) {
         var productEntity = iProductRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found with id " + id));
-        return productDtoMapper.toDto(productDomainMapper.toDomain(productEntity));
+        System.out.println("PRODUCT: " + productEntity);
+        return productDomainMapper.toDomain(productEntity);
     }
 
     @Override
@@ -59,8 +60,6 @@ public class ProductServiceImpl implements IProductService {
         existingProduct.setDescription(productRequest.getDescription());
         existingProduct.setPurchasePrice(productRequest.getPurchasePrice());
         existingProduct.setSalePrice(productRequest.getSalePrice());
-        existingProduct.setStatus(productRequest.isStatus());
-        existingProduct.setFlag(productRequest.isFlag());
 
         existingProduct.setBrandEntity(productRequest.getBrandId() != null ? new BrandEntity(productRequest.getBrandId()) : null);
         existingProduct.setCategoryEntity(productRequest.getCategoryId() != null ? new CategoryEntity(productRequest.getCategoryId()) : null);
@@ -76,6 +75,14 @@ public class ProductServiceImpl implements IProductService {
         ProductEntity existingProduct = iProductRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found with id " + id));
         existingProduct.setFlag(false);
+        iProductRepository.save(existingProduct);
+    }
+
+    @Override
+    public void toggleStatus(Long id) {
+        ProductEntity existingProduct = iProductRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found with id " + id));
+        existingProduct.setStatus(!existingProduct.isStatus());
         iProductRepository.save(existingProduct);
     }
 }
