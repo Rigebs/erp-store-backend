@@ -18,6 +18,7 @@ public class ProductEntity {
 
     private String name;
     private String description;
+    private Integer quantity;
     private double purchasePrice;
     private double salePrice;
     private boolean status;

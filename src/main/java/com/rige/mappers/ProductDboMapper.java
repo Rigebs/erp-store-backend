@@ -12,6 +12,7 @@ public class ProductDboMapper {
                 .id(product.getId())
                 .name(product.getName())
                 .description(product.getDescription())
+                .quantity(product.getQuantity())
                 .purchasePrice(product.getPurchasePrice())
                 .salePrice(product.getSalePrice())
                 .status(product.isStatus())
