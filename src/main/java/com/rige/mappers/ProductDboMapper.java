@@ -17,7 +17,7 @@ public class ProductDboMapper {
                 .salePrice(product.getSalePrice())
                 .status(product.isStatus())
                 .flag(product.isFlag())
-
+                .imageEntity(mapImageToEntity(product.getImage()))
                 .brandEntity(mapBrandToEntity(product.getBrand()))
                 .categoryEntity(mapCategoryToEntity(product.getCategory()))
                 .unitMeasureEntity(mapUnitMeasureToEntity(product.getUnitMeasure()))
@@ -25,6 +25,15 @@ public class ProductDboMapper {
                 .supplierEntity(mapSupplierToEntity(product.getSupplier()))
 
                 .build();
+    }
+
+    private ImageEntity mapImageToEntity(Image image) {
+        if (image == null) {
+            return null;
+        }
+        ImageEntity imageEntity = new ImageEntity();
+        imageEntity.setId(image.getId());
+        return imageEntity;
     }
 
     private BrandEntity mapBrandToEntity(Brand brand) {

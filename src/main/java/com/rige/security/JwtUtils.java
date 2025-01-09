@@ -1,14 +1,12 @@
 package com.rige.security;
 
-
-import com.rige.entities.RoleEntity;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,48 +14,36 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import java.util.*;
 
 @Component
-@RequiredArgsConstructor
 public class JwtUtils {
 
-    private final UserDetailServiceImpl userDetailsService;
-
-    String jwtSecret;
-    long jwtExpiration;
-
     @Value("${jwt.secret}")
-    public void setJwtSecret(String secret) {
-        jwtSecret = secret;
-    }
+    String jwtSecret;
 
     @Value("${jwt.expiration}")
-    public void setJwtExpiration(long expiration) {
-        jwtExpiration = expiration;
-    }
+    long jwtExpiration;
 
-    public String createToken(String username, String email, Set<RoleEntity> roles) {
-        System.out.println("SE CREA-");
+    public String createToken(Long id, String username, String email, Collection<? extends GrantedAuthority> roles) {
         long expirationTime = jwtExpiration * 1_000;
         Date expirationDate = new Date(System.currentTimeMillis() + expirationTime);
 
-        Map<String, Object> extra = new HashMap<>();
-        extra.put("username", username);
-
-        Set<String> roleNames = new HashSet<>();
-        for (RoleEntity role : roles) {
-            roleNames.add(role.getName());
+        List<String> roleNames = new ArrayList<>();
+        for (GrantedAuthority role : roles) {
+            roleNames.add(role.getAuthority());
         }
-        extra.put("roles", roleNames);
 
         return Jwts.builder()
+                .claim("id", id)
+                .claim("user", username)
+                .claim("roles", roleNames)
                 .setSubject(email)
+                .setIssuedAt(new Date())
                 .setExpiration(expirationDate)
-                .addClaims(extra)
                 .signWith(Keys.hmacShaKeyFor(jwtSecret.getBytes()))
                 .compact();
     }
 
-    public UsernamePasswordAuthenticationToken getAuthentication(String token) {
 
+    public UsernamePasswordAuthenticationToken getAuthentication(String token) {
         try {
             Claims claims = Jwts.parserBuilder()
                     .setSigningKey(jwtSecret.getBytes())
@@ -67,12 +53,17 @@ public class JwtUtils {
 
             String email = claims.getSubject();
 
-            UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+            @SuppressWarnings("unchecked")
+            ArrayList<String> roles = (ArrayList<String>) claims.get("roles");
 
-            return new UsernamePasswordAuthenticationToken(email, null, userDetails.getAuthorities());
+            Collection<GrantedAuthority> authorities = new ArrayList<>();
+            for (String role : roles) {
+                authorities.add(new SimpleGrantedAuthority(role));
+            }
+
+            return new UsernamePasswordAuthenticationToken(email, null, authorities);
         } catch (JwtException e) {
-            System.out.println("EXCEP: " + e);
-            return null;
+            throw new JwtException("Invalid token: " + e.getMessage());
         }
     }
 }

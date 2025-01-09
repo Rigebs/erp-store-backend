@@ -16,6 +16,7 @@ public class Product {
     private boolean status;
     private boolean flag;
 
+    private Image image;
     private Brand brand;
     private Category category;
     private UnitMeasure unitMeasure;

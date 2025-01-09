@@ -11,6 +11,7 @@ public class ProductRequest {
     private int quantity;
     private double purchasePrice;
     private double salePrice;
+    private Long imageId;
     private Long brandId;
     private Long unitMeasureId;
     private Long categoryId;

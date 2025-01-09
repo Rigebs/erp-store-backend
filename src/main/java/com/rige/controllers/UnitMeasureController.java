@@ -1,6 +1,5 @@
 package com.rige.controllers;
 
-import com.rige.dto.BrandDto;
 import com.rige.dto.UnitMeasureDto;
 import com.rige.dto.request.UnitMeasureRequest;
 import com.rige.dto.response.ApiResponse;
@@ -14,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/units-measure")
+@RequestMapping("/api/v1/users/units-measure")
 @AllArgsConstructor
 public class UnitMeasureController {
 

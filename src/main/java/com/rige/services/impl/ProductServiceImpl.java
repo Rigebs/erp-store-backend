@@ -11,6 +11,7 @@ import com.rige.models.Product;
 import com.rige.repositories.IProductRepository;
 import com.rige.services.IProductService;
 import lombok.AllArgsConstructor;
+import lombok.val;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,6 +31,7 @@ public class ProductServiceImpl implements IProductService {
         product.setStatus(true);
         product.setFlag(true);
         iProductRepository.save(productDboMapper.toDbo(product));
+        System.out.println(productRequest);
     }
 
     @Override
@@ -47,7 +49,6 @@ public class ProductServiceImpl implements IProductService {
     public Product findById(Long id) {
         var productEntity = iProductRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found with id " + id));
-        System.out.println("PRODUCT: " + productEntity);
         return productDomainMapper.toDomain(productEntity);
     }
 
@@ -85,4 +86,14 @@ public class ProductServiceImpl implements IProductService {
         existingProduct.setStatus(!existingProduct.isStatus());
         iProductRepository.save(existingProduct);
     }
+
+    @Override
+    public void deleteRelationships(Long id, String tableName) {
+        try {
+            iProductRepository.deleteRelationship(id, tableName);
+        } catch (Exception e) {
+            throw new RuntimeException("Error al eliminar la relación: " + e);
+        }
+    }
+
 }

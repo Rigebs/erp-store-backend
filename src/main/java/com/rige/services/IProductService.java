@@ -14,4 +14,5 @@ public interface IProductService {
     void update(Long id, ProductRequest productRequest);
     void delete(Long id);
     void toggleStatus(Long id);
+    void deleteRelationships(Long id, String table);
 }

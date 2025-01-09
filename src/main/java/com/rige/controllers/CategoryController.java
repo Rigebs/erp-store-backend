@@ -1,6 +1,5 @@
 package com.rige.controllers;
 
-import com.rige.dto.BrandDto;
 import com.rige.dto.CategoryDto;
 import com.rige.dto.request.CategoryRequest;
 import com.rige.dto.response.ApiResponse;
@@ -14,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/categories")
+@RequestMapping("/api/v1/users/categories")
 @AllArgsConstructor
 public class CategoryController {
 

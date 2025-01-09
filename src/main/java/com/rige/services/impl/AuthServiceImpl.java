@@ -36,7 +36,7 @@ public class AuthServiceImpl implements IAuthService {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         UserEntity authenticatedUser = (UserEntity) authentication.getPrincipal();
-        return jwtUtils.createToken(authenticatedUser.getUsername(), authenticatedUser.getEmail(), authenticatedUser.getRoles());
+        return jwtUtils.createToken(authenticatedUser.getId(), authenticatedUser.getUsername(), authenticatedUser.getEmail(), authenticatedUser.getAuthorities());
     }
 
     @Override

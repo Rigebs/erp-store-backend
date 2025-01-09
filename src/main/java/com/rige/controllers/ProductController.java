@@ -53,9 +53,16 @@ public class ProductController {
         return ResponseEntity.ok(new ApiResponse("Producto eliminado"));
     }
 
+    @DeleteMapping("/{tableName}/{id}")
+    public ResponseEntity<ApiResponse> deleteRelationships(
+            @PathVariable("tableName") String tableName,
+            @PathVariable("id") Long id) {
+        productService.deleteRelationships(id, tableName);
+        return ResponseEntity.ok(new ApiResponse("Relación eliminada correctamente"));
+    }
+
     @PatchMapping("/{id}")
     public ResponseEntity<ApiResponse> toggleStatus(@PathVariable Long id) {
-        System.out.println("LLEGO AQUI: " + id);
         productService.toggleStatus(id);
         return ResponseEntity.ok(new ApiResponse("Estado actualizado"));
     }

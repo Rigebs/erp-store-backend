@@ -20,9 +20,10 @@ public class ProductDtoMapper {
                 .salePrice(product.getSalePrice())
                 .status(product.isStatus())
                 .flag(product.isFlag())
+                .secureUrl(product.getImage() != null ? product.getImage().getSecureUrl() : null)
                 .brandName(product.getBrand() != null ? product.getBrand().getName() : null)
                 .categoryName(product.getCategory() != null ? product.getCategory().getName() : null)
-                .unitMeasureName(product.getUnitMeasure() != null ? product.getUnitMeasure().getName() : null)
+                .unitMeasureAbbreviation(product.getUnitMeasure() != null ? product.getUnitMeasure().getAbbreviation() : null)
                 .lineName(product.getLine() != null ? product.getLine().getName() : null)
                 .supplierName(product.getSupplier() != null ? product.getSupplier().getName() : null)
                 .build();

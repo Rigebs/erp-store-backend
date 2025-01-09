@@ -14,9 +14,10 @@ public class ProductDto {
     private double salePrice;
     private boolean status;
     private boolean flag;
+    private String secureUrl;
     private String brandName;
     private String categoryName;
-    private String unitMeasureName;
+    private String unitMeasureAbbreviation;
     private String lineName;
     private String supplierName;
 }

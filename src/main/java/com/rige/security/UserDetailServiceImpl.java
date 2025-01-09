@@ -1,5 +1,6 @@
 package com.rige.security;
 
+import com.rige.exceptions.UserNotFoundException;
 import com.rige.repositories.IUserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,8 +16,8 @@ public class UserDetailServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        System.out.println("loadUserByUsername: " + email);
         return iUserRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("Not found"));
+                .orElseThrow(() -> new UserNotFoundException("Usuario no encontrado con email: " + email));
     }
+
 }

@@ -43,4 +43,8 @@ public class ProductEntity {
     @ManyToOne
     @JoinColumn(name = "supplier_id")
     private SupplierEntity supplierEntity;
+
+    @OneToOne
+    @JoinColumn(name = "image_id")
+    private ImageEntity imageEntity;
 }
