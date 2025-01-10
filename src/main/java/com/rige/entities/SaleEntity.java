@@ -10,6 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
+@ToString
 @Table(name = "sales")
 @NoArgsConstructor
 @AllArgsConstructor
@@ -34,5 +35,6 @@ public class SaleEntity {
     private UserEntity cashier;
 
     @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL)
+    @ToString.Exclude
     private List<SaleDetailEntity> saleDetails;
 }

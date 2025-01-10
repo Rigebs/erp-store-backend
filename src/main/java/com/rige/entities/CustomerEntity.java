@@ -7,7 +7,7 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-@Table(name = "sales")
+@Table(name = "customers")
 @NoArgsConstructor
 @AllArgsConstructor
 public class CustomerEntity {
