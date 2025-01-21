@@ -25,14 +25,14 @@ public class LineController {
         return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponse("Línea creada"));
     }
 
-    @GetMapping
-    public ResponseEntity<List<LineDto>> findAll() {
-        return ResponseEntity.ok(lineService.findAll());
+    @GetMapping("/from/{userId}")
+    public ResponseEntity<List<LineDto>> findAll(@PathVariable Long userId) {
+        return ResponseEntity.ok(lineService.findAll(userId));
     }
 
-    @GetMapping("/active")
-    public ResponseEntity<List<LineDto>> findAllActive() {
-        return ResponseEntity.ok(lineService.findAllActive());
+    @GetMapping("/from/{userId}/active")
+    public ResponseEntity<List<LineDto>> findAllActive(@PathVariable Long userId) {
+        return ResponseEntity.ok(lineService.findAllActive(userId));
     }
 
     @GetMapping("/{id}")

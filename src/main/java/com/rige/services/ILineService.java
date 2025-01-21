@@ -8,8 +8,8 @@ import java.util.List;
 
 public interface ILineService {
     void save(LineRequest lineRequest);
-    List<LineDto> findAll();
-    List<LineDto> findAllActive();
+    List<LineDto> findAll(Long userId);
+    List<LineDto> findAllActive(Long userId);
     Line findById(Long id);
     void update(Long id, LineRequest lineRequest);
     void delete(Long id);

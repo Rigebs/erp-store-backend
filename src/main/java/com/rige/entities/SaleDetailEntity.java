@@ -21,6 +21,10 @@ public class SaleDetailEntity {
     private Double totalPrice;
 
     @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity userEntity;
+
+    @ManyToOne
     @JoinColumn(name = "sale_id", nullable = false)
     private SaleEntity sale;
 

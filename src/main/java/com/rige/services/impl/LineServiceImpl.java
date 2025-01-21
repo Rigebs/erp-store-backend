@@ -28,13 +28,13 @@ public class LineServiceImpl implements ILineService {
     }
 
     @Override
-    public List<LineDto> findAll() {
-        return lineMapper.toDtoList(iLineRepository.findByFlag(true));
+    public List<LineDto> findAll(Long userId) {
+        return lineMapper.toDtoList(iLineRepository.findByFlagAndUserEntity_Id(true, userId));
     }
 
     @Override
-    public List<LineDto> findAllActive() {
-        return lineMapper.toDtoList(iLineRepository.findByStatusAndFlag(true, true));
+    public List<LineDto> findAllActive(Long userId) {
+        return lineMapper.toDtoList(iLineRepository.findByFlagAndStatusAndUserEntity_Id(true, true, userId));
     }
 
     @Override

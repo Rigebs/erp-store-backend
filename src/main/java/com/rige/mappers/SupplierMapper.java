@@ -3,6 +3,7 @@ package com.rige.mappers;
 import com.rige.dto.SupplierDto;
 import com.rige.dto.request.SupplierRequest;
 import com.rige.entities.SupplierEntity;
+import com.rige.entities.UserEntity;
 import com.rige.models.Supplier;
 import org.springframework.stereotype.Component;
 
@@ -57,6 +58,7 @@ public class SupplierMapper {
                 .phoneNumber(supplierRequest.getPhoneNumber())
                 .address(supplierRequest.getAddress())
                 .website(supplierRequest.getWebsite())
+                .userEntity(UserEntity.builder().id(supplierRequest.getUserId()).build())
                 .build();
     }
 

@@ -21,6 +21,10 @@ public class LineEntity {
     private boolean status;
     private boolean flag;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity userEntity;
+
     public LineEntity(Long lineId) {
         this.id = lineId;
     }

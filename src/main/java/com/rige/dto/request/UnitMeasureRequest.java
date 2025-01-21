@@ -7,4 +7,5 @@ public class UnitMeasureRequest {
     private String name;
     private String abbreviation;
     private String description;
+    private Long userId;
 }

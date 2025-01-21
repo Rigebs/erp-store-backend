@@ -3,6 +3,7 @@ package com.rige.mappers;
 import com.rige.dto.CategoryDto;
 import com.rige.dto.request.CategoryRequest;
 import com.rige.entities.CategoryEntity;
+import com.rige.entities.UserEntity;
 import com.rige.models.Category;
 import org.springframework.stereotype.Component;
 
@@ -45,6 +46,7 @@ public class CategoryMapper {
         return CategoryEntity.builder()
                 .name(categoryRequest.getName())
                 .description(categoryRequest.getDescription())
+                .userEntity(UserEntity.builder().id(categoryRequest.getUserId()).build())
                 .build();
     }
 

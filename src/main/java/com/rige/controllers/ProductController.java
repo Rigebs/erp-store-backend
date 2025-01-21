@@ -25,15 +25,14 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponse("Producto creado"));
     }
 
-    @GetMapping
-    public ResponseEntity<List<ProductDto>> findAll() {
-        List<ProductDto> products = productService.findAll();
-        return ResponseEntity.ok(products);
+    @GetMapping("/from/{userId}")
+    public ResponseEntity<List<ProductDto>> findAll(@PathVariable Long userId) {
+        return ResponseEntity.ok(productService.findAll(userId));
     }
 
-    @GetMapping("/active")
-    public ResponseEntity<List<ProductDto>> findAllActive() {
-        return ResponseEntity.ok(productService.findAllActive());
+    @GetMapping("/from/{userId}/active")
+    public ResponseEntity<List<ProductDto>> findAllActive(@PathVariable Long userId) {
+        return ResponseEntity.ok(productService.findAllActive(userId));
     }
 
     @GetMapping("/{id}")

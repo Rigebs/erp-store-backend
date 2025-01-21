@@ -8,8 +8,8 @@ import java.util.List;
 
 public interface IBrandService {
     void save(BrandRequest brandRequest);
-    List<BrandDto> findAll();
-    List<BrandDto> findAllActive();
+    List<BrandDto> findAll(Long userId);
+    List<BrandDto> findAllActive(Long userId);
     Brand findById(Long id);
     void update(Long id, BrandRequest brandRequest);
     void delete(Long id);

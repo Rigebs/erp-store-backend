@@ -3,6 +3,7 @@ package com.rige.mappers;
 import com.rige.dto.BrandDto;
 import com.rige.dto.request.BrandRequest;
 import com.rige.entities.BrandEntity;
+import com.rige.entities.UserEntity;
 import com.rige.models.Brand;
 import org.springframework.stereotype.Component;
 
@@ -45,6 +46,7 @@ public class BrandMapper {
         return BrandEntity.builder()
                 .name(brandRequest.getName())
                 .description(brandRequest.getDescription())
+                .userEntity(UserEntity.builder().id(brandRequest.getUserId()).build())
                 .build();
     }
 

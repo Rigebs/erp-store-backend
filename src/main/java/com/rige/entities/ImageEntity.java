@@ -23,4 +23,12 @@ public class ImageEntity {
     private Date createdAt;
     private boolean status;
     private boolean flag;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity userEntity;
+
+    public ImageEntity(Long imageId) {
+        id = imageId;
+    }
 }

@@ -24,6 +24,10 @@ public class SupplierEntity {
     private boolean status;
     private boolean flag;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity userEntity;
+
     public SupplierEntity(Long supplierId) {
         this.id = supplierId;
     }

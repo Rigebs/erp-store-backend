@@ -28,13 +28,13 @@ public class UnitMeasureServiceImpl implements IUnitMeasureService {
     }
 
     @Override
-    public List<UnitMeasureDto> findAll() {
-        return unitMeasureMapper.toDtoList(iUnitMeasureRepository.findByFlag(true));
+    public List<UnitMeasureDto> findAll(Long userId) {
+        return unitMeasureMapper.toDtoList(iUnitMeasureRepository.findByFlagAndUserEntity_Id(true, userId));
     }
 
     @Override
-    public List<UnitMeasureDto> findAllActive() {
-        return unitMeasureMapper.toDtoList(iUnitMeasureRepository.findByStatusAndFlag(true, true));
+    public List<UnitMeasureDto> findAllActive(Long userId) {
+        return unitMeasureMapper.toDtoList(iUnitMeasureRepository.findByFlagAndStatusAndUserEntity_Id(true, true, userId));
     }
 
     @Override

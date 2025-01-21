@@ -28,13 +28,13 @@ public class CategoryServiceImpl implements ICategoryService {
     }
 
     @Override
-    public List<CategoryDto> findAll() {
-        return categoryMapper.toDtoList(iCategoryRepository.findByFlag(true));
+    public List<CategoryDto> findAll(Long userId) {
+        return categoryMapper.toDtoList(iCategoryRepository.findByFlagAndUserEntity_Id(true, userId));
     }
 
     @Override
-    public List<CategoryDto> findAllActive() {
-        return categoryMapper.toDtoList(iCategoryRepository.findByStatusAndFlag(true, true));
+    public List<CategoryDto> findAllActive(Long userId) {
+        return categoryMapper.toDtoList(iCategoryRepository.findByFlagAndStatusAndUserEntity_Id(true, true, userId));
     }
 
     @Override

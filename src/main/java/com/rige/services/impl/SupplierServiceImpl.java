@@ -28,13 +28,13 @@ public class SupplierServiceImpl implements ISupplierService {
     }
 
     @Override
-    public List<SupplierDto> findAll() {
-        return supplierMapper.toDtoList(iSupplierRepository.findByFlag(true));
+    public List<SupplierDto> findAll(Long userId) {
+        return supplierMapper.toDtoList(iSupplierRepository.findByFlagAndUserEntity_Id(true, userId));
     }
 
     @Override
-    public List<SupplierDto> findAllActive() {
-        return supplierMapper.toDtoList(iSupplierRepository.findByStatusAndFlag(true, true));
+    public List<SupplierDto> findAllActive(Long userId) {
+        return supplierMapper.toDtoList(iSupplierRepository.findByFlagAndStatusAndUserEntity_Id(true, true, userId));
     }
 
     @Override

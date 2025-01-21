@@ -25,14 +25,14 @@ public class BrandController {
         return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponse("Marca creada"));
     }
 
-    @GetMapping
-    public ResponseEntity<List<BrandDto>> findAll() {
-        return ResponseEntity.ok(brandService.findAll());
+    @GetMapping("/from/{userId}")
+    public ResponseEntity<List<BrandDto>> findAll(@PathVariable Long userId) {
+        return ResponseEntity.ok(brandService.findAll(userId));
     }
 
-    @GetMapping("/active")
-    public ResponseEntity<List<BrandDto>> findAllActive() {
-        return ResponseEntity.ok(brandService.findAllActive());
+    @GetMapping("/from/{userId}/active")
+    public ResponseEntity<List<BrandDto>> findAllActive(@PathVariable Long userId) {
+        return ResponseEntity.ok(brandService.findAllActive(userId));
     }
 
     @GetMapping("/{id}")

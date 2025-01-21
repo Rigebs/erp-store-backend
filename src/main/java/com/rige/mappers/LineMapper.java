@@ -3,6 +3,7 @@ package com.rige.mappers;
 import com.rige.dto.LineDto;
 import com.rige.dto.request.LineRequest;
 import com.rige.entities.LineEntity;
+import com.rige.entities.UserEntity;
 import com.rige.models.Line;
 import org.springframework.stereotype.Component;
 
@@ -45,6 +46,7 @@ public class LineMapper {
         return LineEntity.builder()
                 .name(lineRequest.getName())
                 .description(lineRequest.getDescription())
+                .userEntity(UserEntity.builder().id(lineRequest.getUserId()).build())
                 .build();
     }
 

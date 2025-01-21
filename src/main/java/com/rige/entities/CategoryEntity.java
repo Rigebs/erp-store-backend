@@ -21,6 +21,10 @@ public class CategoryEntity {
     private boolean status;
     private boolean flag;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity userEntity;
+
     public CategoryEntity(Long categoryId) {
         this.id = categoryId;
     }

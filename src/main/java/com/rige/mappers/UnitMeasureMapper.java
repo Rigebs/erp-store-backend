@@ -3,6 +3,7 @@ package com.rige.mappers;
 import com.rige.dto.UnitMeasureDto;
 import com.rige.dto.request.UnitMeasureRequest;
 import com.rige.entities.UnitMeasureEntity;
+import com.rige.entities.UserEntity;
 import com.rige.models.UnitMeasure;
 import org.springframework.stereotype.Component;
 
@@ -34,6 +35,7 @@ public class UnitMeasureMapper {
                 .name(unitMeasureRequest.getName())
                 .abbreviation(unitMeasureRequest.getAbbreviation())
                 .description(unitMeasureRequest.getDescription())
+                .userEntity(UserEntity.builder().id(unitMeasureRequest.getUserId()).build())
                 .build();
     }
 

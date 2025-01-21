@@ -25,14 +25,14 @@ public class UnitMeasureController {
         return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponse("Unidad de medida creada"));
     }
 
-    @GetMapping
-    public ResponseEntity<List<UnitMeasureDto>> findAll() {
-        return ResponseEntity.ok(unitMeasureService.findAll());
+    @GetMapping("/from/{userId}")
+    public ResponseEntity<List<UnitMeasureDto>> findAll(@PathVariable Long userId) {
+        return ResponseEntity.ok(unitMeasureService.findAll(userId));
     }
 
-    @GetMapping("/active")
-    public ResponseEntity<List<UnitMeasureDto>> findAllActive() {
-        return ResponseEntity.ok(unitMeasureService.findAllActive());
+    @GetMapping("/from/{userId}/active")
+    public ResponseEntity<List<UnitMeasureDto>> findAllActive(@PathVariable Long userId) {
+        return ResponseEntity.ok(unitMeasureService.findAllActive(userId));
     }
 
     @GetMapping("/{id}")

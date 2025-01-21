@@ -25,14 +25,14 @@ public class CategoryController {
         return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponse("Categoría creada"));
     }
 
-    @GetMapping
-    public ResponseEntity<List<CategoryDto>> findAll() {
-        return ResponseEntity.ok(categoryService.findAll());
+    @GetMapping("/from/{userId}")
+    public ResponseEntity<List<CategoryDto>> findAll(@PathVariable Long userId) {
+        return ResponseEntity.ok(categoryService.findAll(userId));
     }
 
-    @GetMapping("/active")
-    public ResponseEntity<List<CategoryDto>> findAllActive() {
-        return ResponseEntity.ok(categoryService.findAllActive());
+    @GetMapping("/from/{userId}/active")
+    public ResponseEntity<List<CategoryDto>> findAllActive(@PathVariable Long userId) {
+        return ResponseEntity.ok(categoryService.findAllActive(userId));
     }
 
     @GetMapping("/{id}")

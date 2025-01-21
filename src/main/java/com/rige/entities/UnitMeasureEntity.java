@@ -22,6 +22,10 @@ public class UnitMeasureEntity {
     private boolean status;
     private boolean flag;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity userEntity;
+
     public UnitMeasureEntity(Long unitMeasureId) {
         this.id = unitMeasureId;
     }

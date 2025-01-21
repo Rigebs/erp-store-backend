@@ -8,8 +8,8 @@ import java.util.List;
 
 public interface IUnitMeasureService {
     void save(UnitMeasureRequest unitMeasureRequest);
-    List<UnitMeasureDto> findAll();
-    List<UnitMeasureDto> findAllActive();
+    List<UnitMeasureDto> findAll(Long userId);
+    List<UnitMeasureDto> findAllActive(Long userId);
     UnitMeasure findById(Long id);
     void update(Long id, UnitMeasureRequest unitMeasureRequest);
     void delete(Long id);

@@ -28,13 +28,13 @@ public class BrandServiceImpl implements IBrandService {
     }
 
     @Override
-    public List<BrandDto> findAll() {
-        return brandMapper.toDtoList(iBrandRepository.findByFlag(true));
+    public List<BrandDto> findAll(Long userId) {
+        return brandMapper.toDtoList(iBrandRepository.findByFlagAndUserEntity_Id(true, userId));
     }
 
     @Override
-    public List<BrandDto> findAllActive() {
-        return brandMapper.toDtoList(iBrandRepository.findByStatusAndFlag(true, true));
+    public List<BrandDto> findAllActive(Long userId) {
+        return brandMapper.toDtoList(iBrandRepository.findByFlagAndStatusAndUserEntity_Id(true, true, userId));
     }
 
     @Override

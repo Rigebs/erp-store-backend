@@ -4,14 +4,13 @@ import com.rige.dto.ProductDto;
 import com.rige.dto.request.ProductRequest;
 import com.rige.entities.*;
 import com.rige.exceptions.ResourceNotFoundException;
-import com.rige.mappers.ProductDboMapper;
 import com.rige.mappers.ProductDomainMapper;
 import com.rige.mappers.ProductDtoMapper;
+import com.rige.mappers.ProductMapper;
 import com.rige.models.Product;
 import com.rige.repositories.IProductRepository;
 import com.rige.services.IProductService;
 import lombok.AllArgsConstructor;
-import lombok.val;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,26 +22,21 @@ public class ProductServiceImpl implements IProductService {
     private final IProductRepository iProductRepository;
     private final ProductDtoMapper productDtoMapper;
     private final ProductDomainMapper productDomainMapper;
-    private final ProductDboMapper productDboMapper;
+    private final ProductMapper productMapper;
 
     @Override
     public void save(ProductRequest productRequest) {
-        var product = productDomainMapper.toDomain(productRequest);
-        product.setStatus(true);
-        product.setFlag(true);
-        iProductRepository.save(productDboMapper.toDbo(product));
-        System.out.println(productRequest);
+        iProductRepository.save(productMapper.toEntity(productRequest));
     }
 
     @Override
-    public List<ProductDto> findAll() {
-        var products = productDomainMapper.toDomainList(iProductRepository.findByFlag(true));
-        return productDtoMapper.toDtoList(products);
+    public List<ProductDto> findAll(Long userId) {
+        return productMapper.toDtoList(iProductRepository.findByFlagAndUserEntity_Id(true, userId));
     }
 
     @Override
-    public List<ProductDto> findAllActive() {
-        return productDtoMapper.toDtoList(productDomainMapper.toDomainList(iProductRepository.findByStatusAndFlag(true, true)));
+    public List<ProductDto> findAllActive(Long userId) {
+        return productMapper.toDtoList(iProductRepository.findByFlagAndStatusAndUserEntity_Id(true, true, userId));
     }
 
     @Override
@@ -61,7 +55,7 @@ public class ProductServiceImpl implements IProductService {
         existingProduct.setDescription(productRequest.getDescription());
         existingProduct.setPurchasePrice(productRequest.getPurchasePrice());
         existingProduct.setSalePrice(productRequest.getSalePrice());
-
+        existingProduct.setImageEntity(productRequest.getImageId() != null ? new ImageEntity(productRequest.getImageId()) : null);
         existingProduct.setBrandEntity(productRequest.getBrandId() != null ? new BrandEntity(productRequest.getBrandId()) : null);
         existingProduct.setCategoryEntity(productRequest.getCategoryId() != null ? new CategoryEntity(productRequest.getCategoryId()) : null);
         existingProduct.setUnitMeasureEntity(productRequest.getUnitMeasureId() != null ? new UnitMeasureEntity(productRequest.getUnitMeasureId()) : null);

@@ -8,8 +8,8 @@ import java.util.List;
 
 public interface ICategoryService {
     void save(CategoryRequest categoryRequest);
-    List<CategoryDto> findAll();
-    List<CategoryDto> findAllActive();
+    List<CategoryDto> findAll(Long userId);
+    List<CategoryDto> findAllActive(Long userId);
     Category findById(Long id);
     void update(Long id, CategoryRequest categoryRequest);
     void delete(Long id);

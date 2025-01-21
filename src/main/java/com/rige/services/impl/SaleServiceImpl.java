@@ -1,7 +1,9 @@
 package com.rige.services.impl;
 
 import com.rige.dto.SaleDto;
+import com.rige.dto.custom.FullSaleDetailsDto;
 import com.rige.dto.request.SaleRequest;
+import com.rige.entities.SaleEntity;
 import com.rige.mappers.SaleMapper;
 import com.rige.repositories.ISaleRepository;
 import com.rige.services.ISaleService;
@@ -23,12 +25,14 @@ public class SaleServiceImpl implements ISaleService {
     }
 
     @Override
-    public List<SaleDto> findAll() {
-        return List.of();
+    public List<SaleDto> findAllByUser(Long userId) {
+        return saleMapper.toDtoList(iSaleRepository.findByCashier_Id(userId));
     }
 
     @Override
-    public SaleDto findById(Long id) {
-        return null;
+    public FullSaleDetailsDto findById(Long id) {
+        SaleEntity sale = iSaleRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Venta no encontrada con ID: " + id));
+        return saleMapper.toFullDto(sale);
     }
 }

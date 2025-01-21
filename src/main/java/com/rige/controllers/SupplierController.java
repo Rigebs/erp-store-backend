@@ -1,10 +1,8 @@
 package com.rige.controllers;
 
-import com.rige.dto.BrandDto;
 import com.rige.dto.SupplierDto;
 import com.rige.dto.request.SupplierRequest;
 import com.rige.dto.response.ApiResponse;
-import com.rige.entities.SupplierEntity;
 import com.rige.models.Supplier;
 import com.rige.services.ISupplierService;
 import lombok.AllArgsConstructor;
@@ -27,14 +25,14 @@ public class SupplierController {
         return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponse("Proveedor creado"));
     }
 
-    @GetMapping
-    public ResponseEntity<List<SupplierDto>> findAll() {
-        return ResponseEntity.ok(supplierService.findAll());
+    @GetMapping("/from/{userId}")
+    public ResponseEntity<List<SupplierDto>> findAll(@PathVariable Long userId) {
+        return ResponseEntity.ok(supplierService.findAll(userId));
     }
 
-    @GetMapping("/active")
-    public ResponseEntity<List<SupplierDto>> findAllActive() {
-        return ResponseEntity.ok(supplierService.findAllActive());
+    @GetMapping("/from/{userId}/active")
+    public ResponseEntity<List<SupplierDto>> findAllActive(@PathVariable Long userId) {
+        return ResponseEntity.ok(supplierService.findAllActive(userId));
     }
 
     @GetMapping("/{id}")

@@ -25,6 +25,14 @@ public class ProductEntity {
     private boolean flag;
 
     @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity userEntity;
+
+    @OneToOne
+    @JoinColumn(name = "image_id")
+    private ImageEntity imageEntity;
+
+    @ManyToOne
     @JoinColumn(name = "brand_id")
     private BrandEntity brandEntity;
 
@@ -43,8 +51,4 @@ public class ProductEntity {
     @ManyToOne
     @JoinColumn(name = "supplier_id")
     private SupplierEntity supplierEntity;
-
-    @OneToOne
-    @JoinColumn(name = "image_id")
-    private ImageEntity imageEntity;
 }

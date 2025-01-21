@@ -10,4 +10,5 @@ public class SupplierRequest {
     private String phoneNumber;
     private String address;
     private String website;
+    private Long userId;
 }
