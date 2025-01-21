@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/secured")
+@RequestMapping("/api/v1")
 @AllArgsConstructor
 public class ExampleController {
     @PostMapping("/hello")
     public ApiResponse hello() {
-        return new ApiResponse("hello");
+        return new ApiResponse("Hello World");
     }
 }
