@@ -3,14 +3,14 @@ package com.rige.controllers;
 import com.rige.dto.SupplierDto;
 import com.rige.dto.request.SupplierRequest;
 import com.rige.dto.response.ApiResponse;
-import com.rige.models.Supplier;
 import com.rige.services.ISupplierService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/users/suppliers")
@@ -26,17 +26,19 @@ public class SupplierController {
     }
 
     @GetMapping("/from/{userId}")
-    public ResponseEntity<List<SupplierDto>> findAll(@PathVariable Long userId) {
-        return ResponseEntity.ok(supplierService.findAll(userId));
+    public ResponseEntity<Page<SupplierDto>> findAll(@PathVariable Long userId,
+                                                     @PageableDefault Pageable pageable) {
+        return ResponseEntity.ok(supplierService.findAll(userId, pageable));
     }
 
     @GetMapping("/from/{userId}/active")
-    public ResponseEntity<List<SupplierDto>> findAllActive(@PathVariable Long userId) {
-        return ResponseEntity.ok(supplierService.findAllActive(userId));
+    public ResponseEntity<Page<SupplierDto>> findAllActive(@PathVariable Long userId,
+                                                           @PageableDefault Pageable pageable) {
+        return ResponseEntity.ok(supplierService.findAllActive(userId, pageable));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Supplier> findById(@PathVariable Long id) {
+    public ResponseEntity<SupplierDto> findById(@PathVariable Long id) {
         return ResponseEntity.ok(supplierService.findById(id));
     }
 

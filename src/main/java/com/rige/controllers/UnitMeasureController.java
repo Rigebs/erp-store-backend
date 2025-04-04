@@ -3,14 +3,14 @@ package com.rige.controllers;
 import com.rige.dto.UnitMeasureDto;
 import com.rige.dto.request.UnitMeasureRequest;
 import com.rige.dto.response.ApiResponse;
-import com.rige.models.UnitMeasure;
 import com.rige.services.IUnitMeasureService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/users/units-measure")
@@ -26,17 +26,19 @@ public class UnitMeasureController {
     }
 
     @GetMapping("/from/{userId}")
-    public ResponseEntity<List<UnitMeasureDto>> findAll(@PathVariable Long userId) {
-        return ResponseEntity.ok(unitMeasureService.findAll(userId));
+    public ResponseEntity<Page<UnitMeasureDto>> findAll(@PathVariable Long userId,
+                                                        @PageableDefault Pageable pageable) {
+        return ResponseEntity.ok(unitMeasureService.findAll(userId, pageable));
     }
 
     @GetMapping("/from/{userId}/active")
-    public ResponseEntity<List<UnitMeasureDto>> findAllActive(@PathVariable Long userId) {
-        return ResponseEntity.ok(unitMeasureService.findAllActive(userId));
+    public ResponseEntity<Page<UnitMeasureDto>> findAllActive(@PathVariable Long userId,
+                                                              @PageableDefault Pageable pageable) {
+        return ResponseEntity.ok(unitMeasureService.findAllActive(userId, pageable));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UnitMeasure> findById(@PathVariable Long id) {
+    public ResponseEntity<UnitMeasureDto> findById(@PathVariable Long id) {
         return ResponseEntity.ok(unitMeasureService.findById(id));
     }
 

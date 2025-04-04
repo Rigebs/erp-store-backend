@@ -3,14 +3,14 @@ package com.rige.controllers;
 import com.rige.dto.LineDto;
 import com.rige.dto.request.LineRequest;
 import com.rige.dto.response.ApiResponse;
-import com.rige.models.Line;
 import com.rige.services.ILineService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/users/lines")
@@ -26,17 +26,19 @@ public class LineController {
     }
 
     @GetMapping("/from/{userId}")
-    public ResponseEntity<List<LineDto>> findAll(@PathVariable Long userId) {
-        return ResponseEntity.ok(lineService.findAll(userId));
+    public ResponseEntity<Page<LineDto>> findAll(@PathVariable Long userId,
+                                                 @PageableDefault Pageable pageable) {
+        return ResponseEntity.ok(lineService.findAll(userId, pageable));
     }
 
     @GetMapping("/from/{userId}/active")
-    public ResponseEntity<List<LineDto>> findAllActive(@PathVariable Long userId) {
-        return ResponseEntity.ok(lineService.findAllActive(userId));
+    public ResponseEntity<Page<LineDto>> findAllActive(@PathVariable Long userId,
+                                                       @PageableDefault Pageable pageable) {
+        return ResponseEntity.ok(lineService.findAllActive(userId, pageable));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Line> findById(@PathVariable Long id) {
+    public ResponseEntity<LineDto> findById(@PathVariable Long id) {
         return ResponseEntity.ok(lineService.findById(id));
     }
 

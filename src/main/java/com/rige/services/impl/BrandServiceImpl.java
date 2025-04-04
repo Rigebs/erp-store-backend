@@ -4,13 +4,12 @@ import com.rige.dto.BrandDto;
 import com.rige.dto.request.BrandRequest;
 import com.rige.exceptions.ResourceNotFoundException;
 import com.rige.mappers.BrandMapper;
-import com.rige.models.Brand;
 import com.rige.repositories.IBrandRepository;
 import com.rige.services.IBrandService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -28,18 +27,18 @@ public class BrandServiceImpl implements IBrandService {
     }
 
     @Override
-    public List<BrandDto> findAll(Long userId) {
-        return brandMapper.toDtoList(iBrandRepository.findByFlagAndUserEntity_Id(true, userId));
+    public Page<BrandDto> findAll(Long userId, Pageable pageable) {
+        return brandMapper.toDtoList(iBrandRepository.findByFlagAndUserEntity_Id(true, userId, pageable));
     }
 
     @Override
-    public List<BrandDto> findAllActive(Long userId) {
-        return brandMapper.toDtoList(iBrandRepository.findByFlagAndStatusAndUserEntity_Id(true, true, userId));
+    public Page<BrandDto> findAllActive(Long userId, Pageable pageable) {
+        return brandMapper.toDtoList(iBrandRepository.findByFlagAndStatusAndUserEntity_Id(true, true, userId, pageable));
     }
 
     @Override
-    public Brand findById(Long id) {
-        return brandMapper.toDomain(iBrandRepository.findById(id)
+    public BrandDto findById(Long id) {
+        return brandMapper.toDto(iBrandRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Brand not found with id " + id)));
     }
 

@@ -3,6 +3,7 @@ package com.rige.mappers;
 import com.rige.dto.ProductDto;
 import com.rige.dto.request.ProductRequest;
 import com.rige.entities.*;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -29,9 +30,8 @@ public class ProductMapper {
                 .build();
     }
 
-    public List<ProductDto> toDtoList(List<ProductEntity> products) {
-        return products.stream().map(this::toDto)
-                .collect(Collectors.toList());
+    public Page<ProductDto> toDtoList(Page<ProductEntity> products) {
+        return products.map(this::toDto);
     }
 
     public ProductEntity toEntity(ProductRequest productRequest) {

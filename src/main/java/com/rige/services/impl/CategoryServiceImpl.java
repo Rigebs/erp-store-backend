@@ -4,13 +4,12 @@ import com.rige.dto.CategoryDto;
 import com.rige.dto.request.CategoryRequest;
 import com.rige.exceptions.ResourceNotFoundException;
 import com.rige.mappers.CategoryMapper;
-import com.rige.models.Category;
 import com.rige.repositories.ICategoryRepository;
 import com.rige.services.ICategoryService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -28,18 +27,18 @@ public class CategoryServiceImpl implements ICategoryService {
     }
 
     @Override
-    public List<CategoryDto> findAll(Long userId) {
-        return categoryMapper.toDtoList(iCategoryRepository.findByFlagAndUserEntity_Id(true, userId));
+    public Page<CategoryDto> findAll(Long userId, Pageable pageable) {
+        return categoryMapper.toDtoList(iCategoryRepository.findByFlagAndUserEntity_Id(true, userId, pageable));
     }
 
     @Override
-    public List<CategoryDto> findAllActive(Long userId) {
-        return categoryMapper.toDtoList(iCategoryRepository.findByFlagAndStatusAndUserEntity_Id(true, true, userId));
+    public Page<CategoryDto> findAllActive(Long userId, Pageable pageable) {
+        return categoryMapper.toDtoList(iCategoryRepository.findByFlagAndStatusAndUserEntity_Id(true, true, userId, pageable));
     }
 
     @Override
-    public Category findById(Long id) {
-        return categoryMapper.toDomain(iCategoryRepository.findById(id)
+    public CategoryDto findById(Long id) {
+        return categoryMapper.toDto(iCategoryRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Category not found with id " + id)));
     }
 

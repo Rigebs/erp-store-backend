@@ -5,10 +5,8 @@ import com.rige.dto.request.UnitMeasureRequest;
 import com.rige.entities.UnitMeasureEntity;
 import com.rige.entities.UserEntity;
 import com.rige.models.UnitMeasure;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class UnitMeasureMapper {
@@ -53,12 +51,7 @@ public class UnitMeasureMapper {
                 .build();
     }
 
-    public List<UnitMeasureDto> toDtoList(List<UnitMeasureEntity> entities) {
-        if (entities == null || entities.isEmpty()) {
-            return List.of();
-        }
-        return entities.stream()
-                .map(this::toDto)
-                .collect(Collectors.toList());
+    public Page<UnitMeasureDto> toDtoList(Page<UnitMeasureEntity> entities) {
+        return entities.map(this::toDto);
     }
 }

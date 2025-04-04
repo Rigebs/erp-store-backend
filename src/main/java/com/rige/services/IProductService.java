@@ -2,15 +2,14 @@ package com.rige.services;
 
 import com.rige.dto.ProductDto;
 import com.rige.dto.request.ProductRequest;
-import com.rige.models.Product;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface IProductService {
     void save(ProductRequest productRequest);
-    List<ProductDto> findAll(Long userId);
-    List<ProductDto> findAllActive(Long userId);
-    Product findById(Long id);
+    Page<ProductDto> findAll(Long userId, Pageable pageable);
+    Page<ProductDto> findAllActive(Long userId, Pageable pageable);
+    ProductDto findById(Long id);
     void update(Long id, ProductRequest productRequest);
     void delete(Long id);
     void toggleStatus(Long id);

@@ -5,6 +5,7 @@ import com.rige.dto.request.LineRequest;
 import com.rige.entities.LineEntity;
 import com.rige.entities.UserEntity;
 import com.rige.models.Line;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -50,12 +51,7 @@ public class LineMapper {
                 .build();
     }
 
-    public List<LineDto> toDtoList(List<LineEntity> entities) {
-        if (entities == null || entities.isEmpty()) {
-            return List.of();
-        }
-        return entities.stream()
-                .map(this::toDto)
-                .collect(Collectors.toList());
+    public Page<LineDto> toDtoList(Page<LineEntity> entities) {
+        return entities.map(this::toDto);
     }
 }

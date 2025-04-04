@@ -4,24 +4,19 @@ import com.rige.dto.ProductDto;
 import com.rige.dto.request.ProductRequest;
 import com.rige.entities.*;
 import com.rige.exceptions.ResourceNotFoundException;
-import com.rige.mappers.ProductDomainMapper;
-import com.rige.mappers.ProductDtoMapper;
 import com.rige.mappers.ProductMapper;
-import com.rige.models.Product;
 import com.rige.repositories.IProductRepository;
 import com.rige.services.IProductService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @AllArgsConstructor
 public class ProductServiceImpl implements IProductService {
 
     private final IProductRepository iProductRepository;
-    private final ProductDtoMapper productDtoMapper;
-    private final ProductDomainMapper productDomainMapper;
     private final ProductMapper productMapper;
 
     @Override
@@ -30,20 +25,20 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
-    public List<ProductDto> findAll(Long userId) {
-        return productMapper.toDtoList(iProductRepository.findByFlagAndUserEntity_Id(true, userId));
+    public Page<ProductDto> findAll(Long userId, Pageable pageable) {
+        return productMapper.toDtoList(iProductRepository.findByFlagAndUserEntity_Id(true, userId, pageable));
     }
 
     @Override
-    public List<ProductDto> findAllActive(Long userId) {
-        return productMapper.toDtoList(iProductRepository.findByFlagAndStatusAndUserEntity_Id(true, true, userId));
+    public Page<ProductDto> findAllActive(Long userId, Pageable pageable) {
+        return productMapper.toDtoList(iProductRepository.findByFlagAndStatusAndUserEntity_Id(true, true, userId, pageable));
     }
 
     @Override
-    public Product findById(Long id) {
+    public ProductDto findById(Long id) {
         var productEntity = iProductRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found with id " + id));
-        return productDomainMapper.toDomain(productEntity);
+        return productMapper.toDto(productEntity);
     }
 
     @Override

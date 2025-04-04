@@ -5,10 +5,8 @@ import com.rige.dto.request.CategoryRequest;
 import com.rige.entities.CategoryEntity;
 import com.rige.entities.UserEntity;
 import com.rige.models.Category;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class CategoryMapper {
@@ -50,12 +48,7 @@ public class CategoryMapper {
                 .build();
     }
 
-    public List<CategoryDto> toDtoList(List<CategoryEntity> entities) {
-        if (entities == null || entities.isEmpty()) {
-            return List.of();
-        }
-        return entities.stream()
-                .map(this::toDto)
-                .collect(Collectors.toList());
+    public Page<CategoryDto> toDtoList(Page<CategoryEntity> entities) {
+        return entities.map(this::toDto);
     }
 }

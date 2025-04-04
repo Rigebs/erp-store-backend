@@ -3,14 +3,14 @@ package com.rige.controllers;
 import com.rige.dto.CategoryDto;
 import com.rige.dto.request.CategoryRequest;
 import com.rige.dto.response.ApiResponse;
-import com.rige.models.Category;
 import com.rige.services.ICategoryService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/users/categories")
@@ -26,17 +26,19 @@ public class CategoryController {
     }
 
     @GetMapping("/from/{userId}")
-    public ResponseEntity<List<CategoryDto>> findAll(@PathVariable Long userId) {
-        return ResponseEntity.ok(categoryService.findAll(userId));
+    public ResponseEntity<Page<CategoryDto>> findAll(@PathVariable Long userId,
+                                                     @PageableDefault Pageable pageable) {
+        return ResponseEntity.ok(categoryService.findAll(userId, pageable));
     }
 
     @GetMapping("/from/{userId}/active")
-    public ResponseEntity<List<CategoryDto>> findAllActive(@PathVariable Long userId) {
-        return ResponseEntity.ok(categoryService.findAllActive(userId));
+    public ResponseEntity<Page<CategoryDto>> findAllActive(@PathVariable Long userId,
+                                                           @PageableDefault Pageable pageable) {
+        return ResponseEntity.ok(categoryService.findAllActive(userId, pageable));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Category> findById(@PathVariable Long id) {
+    public ResponseEntity<CategoryDto> findById(@PathVariable Long id) {
         return ResponseEntity.ok(categoryService.findById(id));
     }
 

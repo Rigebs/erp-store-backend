@@ -5,6 +5,7 @@ import com.rige.dto.request.BrandRequest;
 import com.rige.entities.BrandEntity;
 import com.rige.entities.UserEntity;
 import com.rige.models.Brand;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -50,12 +51,7 @@ public class BrandMapper {
                 .build();
     }
 
-    public List<BrandDto> toDtoList(List<BrandEntity> entities) {
-        if (entities == null || entities.isEmpty()) {
-            return List.of();
-        }
-        return entities.stream()
-                .map(this::toDto)
-                .collect(Collectors.toList());
+    public Page<BrandDto> toDtoList(Page<BrandEntity> entities) {
+        return entities.map(this::toDto);
     }
 }

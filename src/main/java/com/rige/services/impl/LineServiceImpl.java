@@ -4,13 +4,12 @@ import com.rige.dto.LineDto;
 import com.rige.dto.request.LineRequest;
 import com.rige.exceptions.ResourceNotFoundException;
 import com.rige.mappers.LineMapper;
-import com.rige.models.Line;
 import com.rige.repositories.ILineRepository;
 import com.rige.services.ILineService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -28,18 +27,18 @@ public class LineServiceImpl implements ILineService {
     }
 
     @Override
-    public List<LineDto> findAll(Long userId) {
-        return lineMapper.toDtoList(iLineRepository.findByFlagAndUserEntity_Id(true, userId));
+    public Page<LineDto> findAll(Long userId, Pageable pageable) {
+        return lineMapper.toDtoList(iLineRepository.findByFlagAndUserEntity_Id(true, userId, pageable));
     }
 
     @Override
-    public List<LineDto> findAllActive(Long userId) {
-        return lineMapper.toDtoList(iLineRepository.findByFlagAndStatusAndUserEntity_Id(true, true, userId));
+    public Page<LineDto> findAllActive(Long userId, Pageable pageable) {
+        return lineMapper.toDtoList(iLineRepository.findByFlagAndStatusAndUserEntity_Id(true, true, userId, pageable));
     }
 
     @Override
-    public Line findById(Long id) {
-        return lineMapper.toDomain(iLineRepository.findById(id)
+    public LineDto findById(Long id) {
+        return lineMapper.toDto(iLineRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Line not found with id " + id)));
     }
 

@@ -5,10 +5,8 @@ import com.rige.dto.request.SupplierRequest;
 import com.rige.entities.SupplierEntity;
 import com.rige.entities.UserEntity;
 import com.rige.models.Supplier;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class SupplierMapper {
@@ -62,12 +60,7 @@ public class SupplierMapper {
                 .build();
     }
 
-    public List<SupplierDto> toDtoList(List<SupplierEntity> entities) {
-        if (entities == null || entities.isEmpty()) {
-            return List.of();
-        }
-        return entities.stream()
-                .map(this::toDto)
-                .collect(Collectors.toList());
+    public Page<SupplierDto> toDtoList(Page<SupplierEntity> entities) {
+        return entities.map(this::toDto);
     }
 }

@@ -6,11 +6,12 @@ import com.rige.dto.response.ApiResponse;
 import com.rige.models.Product;
 import com.rige.services.IProductService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/users/products")
@@ -26,17 +27,19 @@ public class ProductController {
     }
 
     @GetMapping("/from/{userId}")
-    public ResponseEntity<List<ProductDto>> findAll(@PathVariable Long userId) {
-        return ResponseEntity.ok(productService.findAll(userId));
+    public ResponseEntity<Page<ProductDto>> findAll(@PageableDefault Pageable pageable,
+                                                    @PathVariable Long userId) {
+        return ResponseEntity.ok(productService.findAll(userId, pageable));
     }
 
     @GetMapping("/from/{userId}/active")
-    public ResponseEntity<List<ProductDto>> findAllActive(@PathVariable Long userId) {
-        return ResponseEntity.ok(productService.findAllActive(userId));
+    public ResponseEntity<Page<ProductDto>> findAllActive(@PathVariable Long userId,
+                                                          @PageableDefault Pageable pageable) {
+        return ResponseEntity.ok(productService.findAllActive(userId, pageable));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Product> findById(@PathVariable Long id) {
+    public ResponseEntity<ProductDto> findById(@PathVariable Long id) {
         return ResponseEntity.ok(productService.findById(id));
     }
 
