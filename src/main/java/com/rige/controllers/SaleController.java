@@ -5,7 +5,7 @@ import com.rige.dto.custom.FullSaleDetailsDto;
 import com.rige.dto.request.SaleRequest;
 import com.rige.dto.response.ApiResponse;
 import com.rige.services.ISaleService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,25 +13,33 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1/users/sales")
-@AllArgsConstructor
+@RequestMapping("/api/sales")
+@RequiredArgsConstructor
 public class SaleController {
 
-    private final ISaleService iSaleService;
+    private final ISaleService saleService;
 
-    @GetMapping("/from/{userId}")
-    public ResponseEntity<List<SaleDto>> findAll(@PathVariable Long userId) {
-        return ResponseEntity.ok(iSaleService.findAllByUser(userId));
+    @GetMapping
+    public ResponseEntity<ApiResponse<List<SaleDto>>> findAll(@PathVariable Long userId) {
+        List<SaleDto> result = saleService.findAllByUser(userId);
+        return ResponseEntity.ok(
+                new ApiResponse<>(true, "Sales retrieved successfully", result)
+        );
     }
 
     @GetMapping("/{saleId}")
-    public ResponseEntity<FullSaleDetailsDto> findById(@PathVariable Long saleId) {
-        return ResponseEntity.ok(iSaleService.findById(saleId));
+    public ResponseEntity<ApiResponse<FullSaleDetailsDto>> findById(@PathVariable Long saleId) {
+        FullSaleDetailsDto sale = saleService.findById(saleId);
+        return ResponseEntity.ok(
+                new ApiResponse<>(true, "Sale retrieved successfully", sale)
+        );
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponse> save(@RequestBody SaleRequest saleRequest) {
-        iSaleService.save(saleRequest);
-        return new ResponseEntity<>(new ApiResponse("Venta guardada correctamente"), HttpStatus.CREATED);
+    public ResponseEntity<ApiResponse<Void>> save(@RequestBody SaleRequest saleRequest) {
+        saleService.save(saleRequest);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(new ApiResponse<>(true, "Sale created successfully", null));
     }
 }

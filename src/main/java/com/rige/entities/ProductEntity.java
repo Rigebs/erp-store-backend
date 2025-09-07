@@ -7,7 +7,6 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "products")
@@ -21,16 +20,8 @@ public class ProductEntity {
     private Integer quantity;
     private double purchasePrice;
     private double salePrice;
-    private boolean status;
+    private boolean enabled;
     private boolean flag;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private UserEntity userEntity;
-
-    @OneToOne
-    @JoinColumn(name = "image_id")
-    private ImageEntity imageEntity;
 
     @ManyToOne
     @JoinColumn(name = "brand_id")

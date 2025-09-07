@@ -19,7 +19,7 @@ public class CategoryMapper {
                 .id(entity.getId())
                 .name(entity.getName())
                 .description(entity.getDescription())
-                .status(entity.isStatus())
+                .status(entity.isEnabled())
                 .flag(entity.isFlag())
                 .build();
     }
@@ -32,7 +32,7 @@ public class CategoryMapper {
                 .id(entity.getId())
                 .name(entity.getName())
                 .description(entity.getDescription())
-                .status(entity.isStatus())
+                .status(entity.isEnabled())
                 .flag(entity.isFlag())
         .build();
     }
@@ -44,7 +44,6 @@ public class CategoryMapper {
         return CategoryEntity.builder()
                 .name(categoryRequest.getName())
                 .description(categoryRequest.getDescription())
-                .userEntity(UserEntity.builder().id(categoryRequest.getUserId()).build())
                 .build();
     }
 

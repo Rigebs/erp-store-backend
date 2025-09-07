@@ -5,26 +5,34 @@ import com.rige.dto.request.RegisterRequest;
 import com.rige.dto.response.ApiResponse;
 import com.rige.dto.response.TokenResponse;
 import com.rige.services.IAuthService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/auth")
-@AllArgsConstructor
+@RequestMapping("/api/auth")
+@RequiredArgsConstructor
 public class AuthController {
 
-    private final IAuthService iAuthService;
+    private final IAuthService authService;
 
     @PostMapping("/login")
-    public TokenResponse login(@RequestBody LoginRequest userRequest) {
-        return new TokenResponse(iAuthService.login(userRequest));
+    public ResponseEntity<ApiResponse<TokenResponse>> login(@RequestBody LoginRequest userRequest) {
+        TokenResponse token = new TokenResponse(authService.login(userRequest));
+        return ResponseEntity.ok(
+                new ApiResponse<>(true, "Login successful", token)
+        );
     }
 
     @PostMapping("/register")
-    public ApiResponse register(@RequestBody RegisterRequest registerRequest) {
-        return new ApiResponse(iAuthService.register(registerRequest));
+    public ResponseEntity<ApiResponse<Void>> register(@RequestBody RegisterRequest registerRequest) {
+        authService.register(registerRequest);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(new ApiResponse<>(true, "User registered successfully", null));
     }
 }

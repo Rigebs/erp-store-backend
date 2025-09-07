@@ -21,19 +21,19 @@ public class BrandServiceImpl implements IBrandService {
     @Override
     public void save(BrandRequest brandRequest) {
         var brand = brandMapper.toDbo(brandRequest);
-        brand.setStatus(true);
+        brand.setEnabled(true);
         brand.setFlag(true);
         iBrandRepository.save(brand);
     }
 
     @Override
     public Page<BrandDto> findAll(Long userId, Pageable pageable) {
-        return brandMapper.toDtoList(iBrandRepository.findByFlagAndUserEntity_Id(true, userId, pageable));
+        return brandMapper.toDtoList(iBrandRepository.findAll(pageable));
     }
 
     @Override
     public Page<BrandDto> findAllActive(Long userId, Pageable pageable) {
-        return brandMapper.toDtoList(iBrandRepository.findByFlagAndStatusAndUserEntity_Id(true, true, userId, pageable));
+        return brandMapper.toDtoList(iBrandRepository.findAll(pageable));
     }
 
     @Override
@@ -65,7 +65,7 @@ public class BrandServiceImpl implements IBrandService {
     public void toggleStatus(Long id) {
         var existingBrand = iBrandRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Brand not found with id " + id));
-        existingBrand.setStatus(!existingBrand.isStatus());
+        existingBrand.setEnabled(!existingBrand.isEnabled());
         iBrandRepository.save(existingBrand);
     }
 }

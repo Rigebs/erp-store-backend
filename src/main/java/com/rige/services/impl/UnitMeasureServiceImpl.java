@@ -21,19 +21,19 @@ public class UnitMeasureServiceImpl implements IUnitMeasureService {
     @Override
     public void save(UnitMeasureRequest unitMeasureRequest) {
         var unitMeasure = unitMeasureMapper.toDbo(unitMeasureRequest);
-        unitMeasure.setStatus(true);
+        unitMeasure.setEnabled(true);
         unitMeasure.setFlag(true);
         iUnitMeasureRepository.save(unitMeasure);
     }
 
     @Override
     public Page<UnitMeasureDto> findAll(Long userId, Pageable pageable) {
-        return unitMeasureMapper.toDtoList(iUnitMeasureRepository.findByFlagAndUserEntity_Id(true, userId, pageable));
+        return unitMeasureMapper.toDtoList(iUnitMeasureRepository.findAll(pageable));
     }
 
     @Override
     public Page<UnitMeasureDto> findAllActive(Long userId, Pageable pageable) {
-        return unitMeasureMapper.toDtoList(iUnitMeasureRepository.findByFlagAndStatusAndUserEntity_Id(true, true, userId, pageable));
+        return unitMeasureMapper.toDtoList(iUnitMeasureRepository.findAll(pageable));
     }
 
     @Override
@@ -66,7 +66,7 @@ public class UnitMeasureServiceImpl implements IUnitMeasureService {
     public void toggleStatus(Long id) {
         var existingUnitMeasure = iUnitMeasureRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Unit Measure not found with id " + id));
-        existingUnitMeasure.setStatus(!existingUnitMeasure.isStatus());
+        existingUnitMeasure.setEnabled(!existingUnitMeasure.isEnabled());
         iUnitMeasureRepository.save(existingUnitMeasure);
     }
 }

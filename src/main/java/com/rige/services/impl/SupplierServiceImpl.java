@@ -21,19 +21,19 @@ public class SupplierServiceImpl implements ISupplierService {
     @Override
     public void save(SupplierRequest supplierRequest) {
         var supplier = supplierMapper.toDbo(supplierRequest);
-        supplier.setStatus(true);
+        supplier.setEnabled(true);
         supplier.setFlag(true);
         iSupplierRepository.save(supplier);
     }
 
     @Override
     public Page<SupplierDto> findAll(Long userId, Pageable pageable) {
-        return supplierMapper.toDtoList(iSupplierRepository.findByFlagAndUserEntity_Id(true, userId, pageable));
+        return supplierMapper.toDtoList(iSupplierRepository.findAll(pageable));
     }
 
     @Override
     public Page<SupplierDto> findAllActive(Long userId, Pageable pageable) {
-        return supplierMapper.toDtoList(iSupplierRepository.findByFlagAndStatusAndUserEntity_Id(true, true, userId, pageable));
+        return supplierMapper.toDtoList(iSupplierRepository.findAll(pageable));
     }
 
     @Override
@@ -69,7 +69,7 @@ public class SupplierServiceImpl implements ISupplierService {
     public void toggleStatus(Long id) {
         var existingSupplier = iSupplierRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Supplier not found with id " + id));
-        existingSupplier.setStatus(!existingSupplier.isStatus());
+        existingSupplier.setEnabled(!existingSupplier.isEnabled());
         iSupplierRepository.save(existingSupplier);
     }
 }

@@ -6,9 +6,6 @@ import com.rige.entities.*;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 @Component
 public class ProductMapper {
     public ProductDto toDto(ProductEntity product) {
@@ -19,9 +16,8 @@ public class ProductMapper {
                 .quantity(product.getQuantity())
                 .purchasePrice(product.getPurchasePrice())
                 .salePrice(product.getSalePrice())
-                .status(product.isStatus())
+                .status(product.isEnabled())
                 .flag(product.isFlag())
-                .secureUrl(product.getImageEntity() != null ? product.getImageEntity().getSecureUrl() : null)
                 .brandName(product.getBrandEntity() != null ? product.getBrandEntity().getName() : null)
                 .categoryName(product.getCategoryEntity() != null ? product.getCategoryEntity().getName() : null)
                 .unitMeasureAbbreviation(product.getUnitMeasureEntity() != null ? product.getUnitMeasureEntity().getAbbreviation() : null)
@@ -42,9 +38,7 @@ public class ProductMapper {
                 .purchasePrice(productRequest.getPurchasePrice())
                 .salePrice(productRequest.getSalePrice())
                 .flag(true)
-                .status(true)
-                .userEntity(UserEntity.builder().id(productRequest.getUserId()).build())
-                .imageEntity(productRequest.getImageId() != null ? ImageEntity.builder().id(productRequest.getImageId()).build() : null)
+                .enabled(true)
                 .brandEntity(productRequest.getBrandId() != null ? BrandEntity.builder().id(productRequest.getBrandId()).build() : null)
                 .categoryEntity(productRequest.getCategoryId() != null ? CategoryEntity.builder().id(productRequest.getCategoryId()).build() : null)
                 .unitMeasureEntity(productRequest.getUnitMeasureId() != null ? UnitMeasureEntity.builder().id(productRequest.getUnitMeasureId()).build() : null)

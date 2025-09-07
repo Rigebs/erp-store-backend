@@ -3,13 +3,9 @@ package com.rige.mappers;
 import com.rige.dto.BrandDto;
 import com.rige.dto.request.BrandRequest;
 import com.rige.entities.BrandEntity;
-import com.rige.entities.UserEntity;
 import com.rige.models.Brand;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class BrandMapper {
@@ -22,7 +18,7 @@ public class BrandMapper {
                 .id(entity.getId())
                 .name(entity.getName())
                 .description(entity.getDescription())
-                .status(entity.isStatus())
+                .status(entity.isEnabled())
                 .flag(entity.isFlag())
                 .build();
     }
@@ -35,7 +31,7 @@ public class BrandMapper {
                 .id(entity.getId())
                 .name(entity.getName())
                 .description(entity.getDescription())
-                .status(entity.isStatus())
+                .status(entity.isEnabled())
                 .flag(entity.isFlag())
                 .build();
     }
@@ -47,7 +43,6 @@ public class BrandMapper {
         return BrandEntity.builder()
                 .name(brandRequest.getName())
                 .description(brandRequest.getDescription())
-                .userEntity(UserEntity.builder().id(brandRequest.getUserId()).build())
                 .build();
     }
 

@@ -9,9 +9,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ISupplierRepository extends JpaRepository<SupplierEntity, Long> {
-    @EntityGraph("userEntity")
-    Page<SupplierEntity> findByFlagAndUserEntity_Id(boolean flag, Long id, Pageable pageable);
-
-    @EntityGraph("userEntity")
-    Page<SupplierEntity> findByFlagAndStatusAndUserEntity_Id(boolean flag, boolean status, Long id, Pageable pageable);
 }

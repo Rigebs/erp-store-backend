@@ -7,7 +7,6 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "companies")
@@ -21,4 +20,5 @@ public class CompanyEntity {
     private String address;
     private String phone;
     private String email;
+    private boolean enabled;
 }

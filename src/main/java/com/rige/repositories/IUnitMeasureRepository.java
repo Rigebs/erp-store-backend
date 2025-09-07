@@ -9,9 +9,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IUnitMeasureRepository extends JpaRepository<UnitMeasureEntity, Long> {
-    @EntityGraph("userEntity")
-    Page<UnitMeasureEntity> findByFlagAndUserEntity_Id(boolean flag, Long id, Pageable pageable);
-
-    @EntityGraph("userEntity")
-    Page<UnitMeasureEntity> findByFlagAndStatusAndUserEntity_Id(boolean flag, boolean status, Long id, Pageable pageable);
 }

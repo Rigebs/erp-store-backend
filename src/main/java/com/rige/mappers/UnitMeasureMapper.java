@@ -3,7 +3,6 @@ package com.rige.mappers;
 import com.rige.dto.UnitMeasureDto;
 import com.rige.dto.request.UnitMeasureRequest;
 import com.rige.entities.UnitMeasureEntity;
-import com.rige.entities.UserEntity;
 import com.rige.models.UnitMeasure;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
@@ -20,7 +19,7 @@ public class UnitMeasureMapper {
                 .name(entity.getName())
                 .abbreviation(entity.getAbbreviation())
                 .description(entity.getDescription())
-                .status(entity.isStatus())
+                .status(entity.isEnabled())
                 .flag(entity.isFlag())
                 .build();
     }
@@ -33,7 +32,6 @@ public class UnitMeasureMapper {
                 .name(unitMeasureRequest.getName())
                 .abbreviation(unitMeasureRequest.getAbbreviation())
                 .description(unitMeasureRequest.getDescription())
-                .userEntity(UserEntity.builder().id(unitMeasureRequest.getUserId()).build())
                 .build();
     }
 
@@ -46,7 +44,7 @@ public class UnitMeasureMapper {
                 .name(entity.getName())
                 .abbreviation(entity.getAbbreviation())
                 .description(entity.getDescription())
-                .status(entity.isStatus())
+                .status(entity.isEnabled())
                 .flag(entity.isFlag())
                 .build();
     }

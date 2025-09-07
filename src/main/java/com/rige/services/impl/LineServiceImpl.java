@@ -21,19 +21,19 @@ public class LineServiceImpl implements ILineService {
     @Override
     public void save(LineRequest lineRequest) {
         var line = lineMapper.toDbo(lineRequest);
-        line.setStatus(true);
+        line.setEnabled(true);
         line.setFlag(true);
         iLineRepository.save(line);
     }
 
     @Override
     public Page<LineDto> findAll(Long userId, Pageable pageable) {
-        return lineMapper.toDtoList(iLineRepository.findByFlagAndUserEntity_Id(true, userId, pageable));
+        return lineMapper.toDtoList(iLineRepository.findAll(pageable));
     }
 
     @Override
     public Page<LineDto> findAllActive(Long userId, Pageable pageable) {
-        return lineMapper.toDtoList(iLineRepository.findByFlagAndStatusAndUserEntity_Id(true, true, userId, pageable));
+        return lineMapper.toDtoList(iLineRepository.findAll(pageable));
     }
 
     @Override
@@ -65,7 +65,7 @@ public class LineServiceImpl implements ILineService {
     public void toggleStatus(Long id) {
         var existingLine = iLineRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Line not found with id " + id));
-        existingLine.setStatus(!existingLine.isStatus());
+        existingLine.setEnabled(!existingLine.isEnabled());
         iLineRepository.save(existingLine);
     }
 }

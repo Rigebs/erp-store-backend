@@ -7,7 +7,6 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "brands")
@@ -18,14 +17,6 @@ public class BrandEntity {
 
     private String name;
     private String description;
-    private boolean status;
+    private boolean enabled;
     private boolean flag;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private UserEntity userEntity;
-
-    public BrandEntity(Long brandId) {
-        this.id = brandId;
-    }
 }

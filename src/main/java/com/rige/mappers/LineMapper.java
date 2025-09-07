@@ -22,7 +22,7 @@ public class LineMapper {
                 .id(entity.getId())
                 .name(entity.getName())
                 .description(entity.getDescription())
-                .status(entity.isStatus())
+                .status(entity.isEnabled())
                 .flag(entity.isFlag())
                 .build();
     }
@@ -35,7 +35,7 @@ public class LineMapper {
                 .id(entity.getId())
                 .name(entity.getName())
                 .description(entity.getDescription())
-                .status(entity.isStatus())
+                .status(entity.isEnabled())
                 .flag(entity.isFlag())
                 .build();
     }
@@ -47,7 +47,6 @@ public class LineMapper {
         return LineEntity.builder()
                 .name(lineRequest.getName())
                 .description(lineRequest.getDescription())
-                .userEntity(UserEntity.builder().id(lineRequest.getUserId()).build())
                 .build();
     }
 

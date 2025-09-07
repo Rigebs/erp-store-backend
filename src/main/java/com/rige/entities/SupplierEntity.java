@@ -21,14 +21,6 @@ public class SupplierEntity {
     private String phoneNumber;
     private String address;
     private String website;
-    private boolean status;
+    private boolean enabled;
     private boolean flag;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private UserEntity userEntity;
-
-    public SupplierEntity(Long supplierId) {
-        this.id = supplierId;
-    }
 }

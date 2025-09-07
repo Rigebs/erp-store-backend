@@ -7,7 +7,6 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "`lines`")
@@ -18,14 +17,6 @@ public class LineEntity {
 
     private String name;
     private String description;
-    private boolean status;
+    private boolean enabled;
     private boolean flag;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private UserEntity userEntity;
-
-    public LineEntity(Long lineId) {
-        this.id = lineId;
-    }
 }

@@ -4,7 +4,7 @@ import com.rige.dto.BrandDto;
 import com.rige.dto.request.BrandRequest;
 import com.rige.dto.response.ApiResponse;
 import com.rige.services.IBrandService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -13,50 +13,62 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/users/brands")
-@AllArgsConstructor
+@RequestMapping("/api/brands")
+@RequiredArgsConstructor
 public class BrandController {
 
     private final IBrandService brandService;
 
     @PostMapping
-    public ResponseEntity<ApiResponse> save(@RequestBody BrandRequest brandRequest) {
+    public ResponseEntity<ApiResponse<Void>> save(@RequestBody BrandRequest brandRequest) {
         brandService.save(brandRequest);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponse("Marca creada"));
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(new ApiResponse<>(true, "Brand created successfully", null));
     }
 
-    @GetMapping("/from/{userId}")
-    public ResponseEntity<Page<BrandDto>> findAll(@PathVariable Long userId,
-                                                  @PageableDefault Pageable pageable) {
-        return ResponseEntity.ok(brandService.findAll(userId, pageable));
-    }
+    @GetMapping
+    public ResponseEntity<ApiResponse<Page<BrandDto>>> findAll(
+            @PathVariable Long userId,
+            @PageableDefault Pageable pageable) {
 
-    @GetMapping("/from/{userId}/active")
-    public ResponseEntity<Page<BrandDto>> findAllActive(@PathVariable Long userId,
-                                                        @PageableDefault Pageable pageable) {
-        return ResponseEntity.ok(brandService.findAllActive(userId, pageable));
+        Page<BrandDto> result = brandService.findAll(userId, pageable);
+        return ResponseEntity.ok(
+                new ApiResponse<>(true, "Brands retrieved successfully", result)
+        );
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<BrandDto> findById(@PathVariable Long id) {
-        return ResponseEntity.ok(brandService.findById(id));
+    public ResponseEntity<ApiResponse<BrandDto>> findById(@PathVariable Long id) {
+        BrandDto brand = brandService.findById(id);
+        return ResponseEntity.ok(
+                new ApiResponse<>(true, "Brand retrieved successfully", brand)
+        );
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse> update(@PathVariable Long id, @RequestBody BrandRequest brandRequest) {
+    public ResponseEntity<ApiResponse<Void>> update(
+            @PathVariable Long id,
+            @RequestBody BrandRequest brandRequest) {
         brandService.update(id, brandRequest);
-        return ResponseEntity.ok(new ApiResponse("Marca actualizada"));
+        return ResponseEntity.ok(
+                new ApiResponse<>(true, "Brand updated successfully", null)
+        );
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse> delete(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<Void>> delete(@PathVariable Long id) {
         brandService.delete(id);
-        return ResponseEntity.ok(new ApiResponse("Marca eliminada"));
+        return ResponseEntity.ok(
+                new ApiResponse<>(true, "Brand deleted successfully", null)
+        );
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<ApiResponse> toggleStatus(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<Void>> toggleStatus(@PathVariable Long id) {
         brandService.toggleStatus(id);
-        return ResponseEntity.ok(new ApiResponse("Estado de la marca actualizado"));
+        return ResponseEntity.ok(
+                new ApiResponse<>(true, "Brand status updated successfully", null)
+        );
     }
 }

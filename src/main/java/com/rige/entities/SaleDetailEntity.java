@@ -7,7 +7,6 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-@ToString
 @Table(name = "sale_details")
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,10 +18,6 @@ public class SaleDetailEntity {
     private Integer quantity;
     private Double unitPrice;
     private Double totalPrice;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private UserEntity userEntity;
 
     @ManyToOne
     @JoinColumn(name = "sale_id", nullable = false)

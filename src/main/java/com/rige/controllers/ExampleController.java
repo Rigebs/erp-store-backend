@@ -10,8 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1")
 @AllArgsConstructor
 public class ExampleController {
+
     @GetMapping("/hello")
-    public ApiResponse hello() {
-        return new ApiResponse("Hello World");
+    public ApiResponse<Void> hello() {
+        return new ApiResponse<>(true, "Hello World", null);
     }
 }

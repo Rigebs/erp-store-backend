@@ -32,7 +32,7 @@ public class SaleServiceImpl implements ISaleService {
     @Override
     public FullSaleDetailsDto findById(Long id) {
         SaleEntity sale = iSaleRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Venta no encontrada con ID: " + id));
+                .orElseThrow(() -> new RuntimeException("Sale not found with ID: " + id));
         return saleMapper.toFullDto(sale);
     }
 }

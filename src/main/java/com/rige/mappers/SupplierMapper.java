@@ -23,7 +23,7 @@ public class SupplierMapper {
                 .phoneNumber(entity.getPhoneNumber())
                 .address(entity.getAddress())
                 .website(entity.getWebsite())
-                .status(entity.isStatus())
+                .status(entity.isEnabled())
                 .flag(entity.isFlag())
                 .build();
     }
@@ -40,7 +40,7 @@ public class SupplierMapper {
                 .phoneNumber(entity.getPhoneNumber())
                 .address(entity.getAddress())
                 .website(entity.getWebsite())
-                .status(entity.isStatus())
+                .status(entity.isEnabled())
                 .flag(entity.isFlag())
                 .build();
     }
@@ -56,7 +56,6 @@ public class SupplierMapper {
                 .phoneNumber(supplierRequest.getPhoneNumber())
                 .address(supplierRequest.getAddress())
                 .website(supplierRequest.getWebsite())
-                .userEntity(UserEntity.builder().id(supplierRequest.getUserId()).build())
                 .build();
     }
 

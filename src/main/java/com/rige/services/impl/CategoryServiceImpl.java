@@ -21,19 +21,19 @@ public class CategoryServiceImpl implements ICategoryService {
     @Override
     public void save(CategoryRequest categoryRequest) {
         var category = categoryMapper.toDbo(categoryRequest);
-        category.setStatus(true);
+        category.setEnabled(true);
         category.setFlag(true);
         iCategoryRepository.save(category);
     }
 
     @Override
     public Page<CategoryDto> findAll(Long userId, Pageable pageable) {
-        return categoryMapper.toDtoList(iCategoryRepository.findByFlagAndUserEntity_Id(true, userId, pageable));
+        return categoryMapper.toDtoList(iCategoryRepository.findAll(pageable));
     }
 
     @Override
     public Page<CategoryDto> findAllActive(Long userId, Pageable pageable) {
-        return categoryMapper.toDtoList(iCategoryRepository.findByFlagAndStatusAndUserEntity_Id(true, true, userId, pageable));
+        return categoryMapper.toDtoList(iCategoryRepository.findAll(pageable));
     }
 
     @Override
@@ -65,7 +65,7 @@ public class CategoryServiceImpl implements ICategoryService {
     public void toggleStatus(Long id) {
         var existingCategory = iCategoryRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Category not found with id " + id));
-        existingCategory.setStatus(!existingCategory.isStatus());
+        existingCategory.setEnabled(!existingCategory.isEnabled());
         iCategoryRepository.save(existingCategory);
     }
 }
