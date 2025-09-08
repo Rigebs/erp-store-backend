@@ -1,8 +1,8 @@
 package com.rige.controllers;
 
-import com.rige.dto.UnitMeasureDto;
 import com.rige.dto.request.UnitMeasureRequest;
 import com.rige.dto.response.ApiResponse;
+import com.rige.dto.response.UnitMeasureResponse;
 import com.rige.services.IUnitMeasureService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -28,28 +28,17 @@ public class UnitMeasureController {
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<Page<UnitMeasureDto>>> findAll(
-            @PathVariable Long userId,
+    public ResponseEntity<ApiResponse<Page<UnitMeasureResponse>>> findAll(
             @PageableDefault Pageable pageable) {
-        Page<UnitMeasureDto> result = unitMeasureService.findAll(userId, pageable);
+        Page<UnitMeasureResponse> result = unitMeasureService.findAll(pageable);
         return ResponseEntity.ok(
                 new ApiResponse<>(true, "Units measure retrieved successfully", result)
         );
     }
 
-    @GetMapping("/from/{userId}/active")
-    public ResponseEntity<ApiResponse<Page<UnitMeasureDto>>> findAllActive(
-            @PathVariable Long userId,
-            @PageableDefault Pageable pageable) {
-        Page<UnitMeasureDto> result = unitMeasureService.findAllActive(userId, pageable);
-        return ResponseEntity.ok(
-                new ApiResponse<>(true, "Active units measure retrieved successfully", result)
-        );
-    }
-
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<UnitMeasureDto>> findById(@PathVariable Long id) {
-        UnitMeasureDto unitMeasure = unitMeasureService.findById(id);
+    public ResponseEntity<ApiResponse<UnitMeasureResponse>> findById(@PathVariable Long id) {
+        UnitMeasureResponse unitMeasure = unitMeasureService.findById(id);
         return ResponseEntity.ok(
                 new ApiResponse<>(true, "Unit measure retrieved successfully", unitMeasure)
         );
@@ -75,7 +64,7 @@ public class UnitMeasureController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<ApiResponse<Void>> toggleStatus(@PathVariable Long id) {
-        unitMeasureService.toggleStatus(id);
+        unitMeasureService.toggleEnabled(id);
         return ResponseEntity.ok(
                 new ApiResponse<>(true, "Unit measure status updated successfully", null)
         );

@@ -23,6 +23,7 @@ public class SaleEntity {
     private Double total;
     private Double tax;
     private Double discount;
+
     private boolean status;
 
     @ManyToOne

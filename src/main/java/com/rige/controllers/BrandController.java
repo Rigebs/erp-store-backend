@@ -1,8 +1,8 @@
 package com.rige.controllers;
 
-import com.rige.dto.BrandDto;
 import com.rige.dto.request.BrandRequest;
 import com.rige.dto.response.ApiResponse;
+import com.rige.dto.response.BrandResponse;
 import com.rige.services.IBrandService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -28,19 +28,18 @@ public class BrandController {
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<Page<BrandDto>>> findAll(
-            @PathVariable Long userId,
+    public ResponseEntity<ApiResponse<Page<BrandResponse>>> findAll(
             @PageableDefault Pageable pageable) {
 
-        Page<BrandDto> result = brandService.findAll(userId, pageable);
+        Page<BrandResponse> result = brandService.findAll(pageable);
         return ResponseEntity.ok(
                 new ApiResponse<>(true, "Brands retrieved successfully", result)
         );
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<BrandDto>> findById(@PathVariable Long id) {
-        BrandDto brand = brandService.findById(id);
+    public ResponseEntity<ApiResponse<BrandResponse>> findById(@PathVariable Long id) {
+        BrandResponse brand = brandService.findById(id);
         return ResponseEntity.ok(
                 new ApiResponse<>(true, "Brand retrieved successfully", brand)
         );

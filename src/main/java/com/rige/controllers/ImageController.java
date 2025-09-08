@@ -10,7 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.Map;
 
 @RestController
-@RequestMapping("api/v1/users/images")
+@RequestMapping("api/images")
 @RequiredArgsConstructor
 public class ImageController {
 

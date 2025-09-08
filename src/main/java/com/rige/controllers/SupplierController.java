@@ -1,8 +1,8 @@
 package com.rige.controllers;
 
-import com.rige.dto.SupplierDto;
 import com.rige.dto.request.SupplierRequest;
 import com.rige.dto.response.ApiResponse;
+import com.rige.dto.response.SupplierResponse;
 import com.rige.services.ISupplierService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -28,28 +28,17 @@ public class SupplierController {
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<Page<SupplierDto>>> findAll(
-            @PathVariable Long userId,
+    public ResponseEntity<ApiResponse<Page<SupplierResponse>>> findAll(
             @PageableDefault Pageable pageable) {
-        Page<SupplierDto> result = supplierService.findAll(userId, pageable);
+        Page<SupplierResponse> result = supplierService.findAll(pageable);
         return ResponseEntity.ok(
                 new ApiResponse<>(true, "Suppliers retrieved successfully", result)
         );
     }
 
-    @GetMapping("/from/{userId}/active")
-    public ResponseEntity<ApiResponse<Page<SupplierDto>>> findAllActive(
-            @PathVariable Long userId,
-            @PageableDefault Pageable pageable) {
-        Page<SupplierDto> result = supplierService.findAllActive(userId, pageable);
-        return ResponseEntity.ok(
-                new ApiResponse<>(true, "Active suppliers retrieved successfully", result)
-        );
-    }
-
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<SupplierDto>> findById(@PathVariable Long id) {
-        SupplierDto supplier = supplierService.findById(id);
+    public ResponseEntity<ApiResponse<SupplierResponse>> findById(@PathVariable Long id) {
+        SupplierResponse supplier = supplierService.findById(id);
         return ResponseEntity.ok(
                 new ApiResponse<>(true, "Supplier retrieved successfully", supplier)
         );
@@ -75,7 +64,7 @@ public class SupplierController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<ApiResponse<Void>> toggleStatus(@PathVariable Long id) {
-        supplierService.toggleStatus(id);
+        supplierService.toggleEnabled(id);
         return ResponseEntity.ok(
                 new ApiResponse<>(true, "Supplier status updated successfully", null)
         );

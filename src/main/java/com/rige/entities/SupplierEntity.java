@@ -2,6 +2,7 @@ package com.rige.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Getter
@@ -21,6 +22,10 @@ public class SupplierEntity {
     private String phoneNumber;
     private String address;
     private String website;
+
+    @ColumnDefault("1")
     private boolean enabled;
+
+    @ColumnDefault("1")
     private boolean flag;
 }

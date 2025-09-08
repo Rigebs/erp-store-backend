@@ -1,11 +1,11 @@
-package com.rige.dto;
+package com.rige.dto.response;
 
 import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Builder
-public class UnitMeasureDto {
+public class UnitMeasureResponse {
     private Long id;
     private String name;
     private String abbreviation;

@@ -15,9 +15,9 @@ public class SaleDetailEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Integer quantity;
-    private Double unitPrice;
-    private Double totalPrice;
+    private int quantity;
+    private double unitPrice;
+    private double totalPrice;
 
     @ManyToOne
     @JoinColumn(name = "sale_id", nullable = false)

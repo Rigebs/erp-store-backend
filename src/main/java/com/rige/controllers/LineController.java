@@ -1,8 +1,8 @@
 package com.rige.controllers;
 
-import com.rige.dto.LineDto;
 import com.rige.dto.request.LineRequest;
 import com.rige.dto.response.ApiResponse;
+import com.rige.dto.response.LineResponse;
 import com.rige.services.ILineService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -28,28 +28,17 @@ public class LineController {
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<Page<LineDto>>> findAll(
-            @PathVariable Long userId,
+    public ResponseEntity<ApiResponse<Page<LineResponse>>> findAll(
             @PageableDefault Pageable pageable) {
-        Page<LineDto> result = lineService.findAll(userId, pageable);
+        Page<LineResponse> result = lineService.findAll(pageable);
         return ResponseEntity.ok(
                 new ApiResponse<>(true, "Lines retrieved successfully", result)
         );
     }
 
-    @GetMapping("/from/{userId}/active")
-    public ResponseEntity<ApiResponse<Page<LineDto>>> findAllActive(
-            @PathVariable Long userId,
-            @PageableDefault Pageable pageable) {
-        Page<LineDto> result = lineService.findAllActive(userId, pageable);
-        return ResponseEntity.ok(
-                new ApiResponse<>(true, "Active lines retrieved successfully", result)
-        );
-    }
-
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<LineDto>> findById(@PathVariable Long id) {
-        LineDto line = lineService.findById(id);
+    public ResponseEntity<ApiResponse<LineResponse>> findById(@PathVariable Long id) {
+        LineResponse line = lineService.findById(id);
         return ResponseEntity.ok(
                 new ApiResponse<>(true, "Line retrieved successfully", line)
         );
@@ -74,8 +63,8 @@ public class LineController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<ApiResponse<Void>> toggleStatus(@PathVariable Long id) {
-        lineService.toggleStatus(id);
+    public ResponseEntity<ApiResponse<Void>> toggleEnabled(@PathVariable Long id) {
+        lineService.toggleEnabled(id);
         return ResponseEntity.ok(
                 new ApiResponse<>(true, "Line status updated successfully", null)
         );

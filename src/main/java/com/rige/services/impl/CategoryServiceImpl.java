@@ -1,9 +1,9 @@
 package com.rige.services.impl;
 
-import com.rige.dto.CategoryDto;
 import com.rige.dto.request.CategoryRequest;
+import com.rige.dto.response.CategoryResponse;
 import com.rige.exceptions.ResourceNotFoundException;
-import com.rige.mappers.CategoryMapper;
+import com.rige.mappers.ICategoryMapper;
 import com.rige.repositories.ICategoryRepository;
 import com.rige.services.ICategoryService;
 import lombok.AllArgsConstructor;
@@ -15,57 +15,53 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class CategoryServiceImpl implements ICategoryService {
 
-    private final ICategoryRepository iCategoryRepository;
-    private final CategoryMapper categoryMapper;
+    private final ICategoryRepository categoryRepository;
+    private final ICategoryMapper categoryMapper;
 
     @Override
     public void save(CategoryRequest categoryRequest) {
-        var category = categoryMapper.toDbo(categoryRequest);
+        var category = categoryMapper.toEntity(categoryRequest);
         category.setEnabled(true);
         category.setFlag(true);
-        iCategoryRepository.save(category);
+        categoryRepository.save(category);
     }
 
     @Override
-    public Page<CategoryDto> findAll(Long userId, Pageable pageable) {
-        return categoryMapper.toDtoList(iCategoryRepository.findAll(pageable));
+    public Page<CategoryResponse> findAll(Pageable pageable) {
+        var categories = categoryRepository.findAll(pageable);
+        return categories.map(categoryMapper::toResponse);
     }
 
     @Override
-    public Page<CategoryDto> findAllActive(Long userId, Pageable pageable) {
-        return categoryMapper.toDtoList(iCategoryRepository.findAll(pageable));
-    }
-
-    @Override
-    public CategoryDto findById(Long id) {
-        return categoryMapper.toDto(iCategoryRepository.findById(id)
+    public CategoryResponse findById(Long id) {
+        return categoryMapper.toResponse(categoryRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Category not found with id " + id)));
     }
 
     @Override
     public void update(Long id, CategoryRequest categoryRequest) {
-        var existingCategory = iCategoryRepository.findById(id)
+        var existingCategory = categoryRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Category not found with id " + id));
 
         existingCategory.setName(categoryRequest.getName());
         existingCategory.setDescription(categoryRequest.getDescription());
 
-        iCategoryRepository.save(existingCategory);
+        categoryRepository.save(existingCategory);
     }
 
     @Override
     public void delete(Long id) {
-        var existingCategory = iCategoryRepository.findById(id)
+        var existingCategory = categoryRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Category not found with id " + id));
         existingCategory.setFlag(false);
-        iCategoryRepository.save(existingCategory);
+        categoryRepository.save(existingCategory);
     }
 
     @Override
-    public void toggleStatus(Long id) {
-        var existingCategory = iCategoryRepository.findById(id)
+    public void toggleEnabled(Long id) {
+        var existingCategory = categoryRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Category not found with id " + id));
         existingCategory.setEnabled(!existingCategory.isEnabled());
-        iCategoryRepository.save(existingCategory);
+        categoryRepository.save(existingCategory);
     }
 }

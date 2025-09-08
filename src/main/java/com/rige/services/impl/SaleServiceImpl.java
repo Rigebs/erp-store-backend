@@ -1,13 +1,15 @@
 package com.rige.services.impl;
 
-import com.rige.dto.SaleDto;
-import com.rige.dto.custom.FullSaleDetailsDto;
 import com.rige.dto.request.SaleRequest;
+import com.rige.dto.response.SaleResponse;
 import com.rige.entities.SaleEntity;
-import com.rige.mappers.SaleMapper;
+import com.rige.mappers.ISaleMapper;
 import com.rige.repositories.ISaleRepository;
 import com.rige.services.ISaleService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,23 +18,33 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SaleServiceImpl implements ISaleService {
 
-    private final ISaleRepository iSaleRepository;
-    private final SaleMapper saleMapper;
+    private final ISaleRepository saleRepository;
+    private final ISaleMapper saleMapper;
 
     @Override
     public void save(SaleRequest saleRequest) {
-        iSaleRepository.save(saleMapper.toEntity(saleRequest));
+        saleRepository.save(saleMapper.toEntity(saleRequest));
     }
 
     @Override
-    public List<SaleDto> findAllByUser(Long userId) {
-        return saleMapper.toDtoList(iSaleRepository.findByCashier_Id(userId));
+    public Page<SaleResponse> findAll(Pageable pageable) {
+        Page<Long> idsPage = saleRepository.findAllIds(pageable);
+        List<SaleEntity> sales = saleRepository.findAllById(idsPage.getContent());
+        List<SaleResponse> saleResponses = sales.stream()
+                .map(saleMapper::toResponse)
+                .toList();
+
+        return new PageImpl<>(
+                saleResponses,
+                pageable,
+                idsPage.getTotalElements()
+        );
     }
 
     @Override
-    public FullSaleDetailsDto findById(Long id) {
-        SaleEntity sale = iSaleRepository.findById(id)
+    public SaleResponse findById(Long id) {
+        SaleEntity sale = saleRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Sale not found with ID: " + id));
-        return saleMapper.toFullDto(sale);
+        return saleMapper.toResponse(sale);
     }
 }

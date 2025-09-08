@@ -1,8 +1,8 @@
 package com.rige.controllers;
 
-import com.rige.dto.ProductDto;
 import com.rige.dto.request.ProductRequest;
 import com.rige.dto.response.ApiResponse;
+import com.rige.dto.response.ProductResponse;
 import com.rige.services.IProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -28,28 +28,17 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<Page<ProductDto>>> findAll(
-            @PathVariable Long userId,
+    public ResponseEntity<ApiResponse<Page<ProductResponse>>> findAll(
             @PageableDefault Pageable pageable) {
-        Page<ProductDto> result = productService.findAll(userId, pageable);
+        Page<ProductResponse> result = productService.findAll(pageable);
         return ResponseEntity.ok(
                 new ApiResponse<>(true, "Products retrieved successfully", result)
         );
     }
 
-    @GetMapping("/from/{userId}/active")
-    public ResponseEntity<ApiResponse<Page<ProductDto>>> findAllActive(
-            @PathVariable Long userId,
-            @PageableDefault Pageable pageable) {
-        Page<ProductDto> result = productService.findAllActive(userId, pageable);
-        return ResponseEntity.ok(
-                new ApiResponse<>(true, "Active products retrieved successfully", result)
-        );
-    }
-
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<ProductDto>> findById(@PathVariable Long id) {
-        ProductDto product = productService.findById(id);
+    public ResponseEntity<ApiResponse<ProductResponse>> findById(@PathVariable Long id) {
+        var product = productService.findById(id);
         return ResponseEntity.ok(
                 new ApiResponse<>(true, "Product retrieved successfully", product)
         );
@@ -73,19 +62,9 @@ public class ProductController {
         );
     }
 
-    @DeleteMapping("/{tableName}/{id}")
-    public ResponseEntity<ApiResponse<Void>> deleteRelationships(
-            @PathVariable String tableName,
-            @PathVariable Long id) {
-        productService.deleteRelationships(id, tableName);
-        return ResponseEntity.ok(
-                new ApiResponse<>(true, "Relationship deleted successfully", null)
-        );
-    }
-
     @PatchMapping("/{id}")
-    public ResponseEntity<ApiResponse<Void>> toggleStatus(@PathVariable Long id) {
-        productService.toggleStatus(id);
+    public ResponseEntity<ApiResponse<Void>> toggleEnabled(@PathVariable Long id) {
+        productService.toggleEnabled(id);
         return ResponseEntity.ok(
                 new ApiResponse<>(true, "Product status updated successfully", null)
         );

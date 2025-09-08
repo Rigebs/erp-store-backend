@@ -2,6 +2,7 @@ package com.rige.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Getter
@@ -14,6 +15,8 @@ public class CustomerEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @ColumnDefault("1")
     private boolean enabled;
 
     @OneToOne

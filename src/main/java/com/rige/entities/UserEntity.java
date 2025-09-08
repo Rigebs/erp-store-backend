@@ -3,6 +3,7 @@ package com.rige.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -25,10 +26,15 @@ public class UserEntity implements UserDetails {
     private String email;
     private String username;
     private String password;
-    private boolean expired;
-    private boolean locked;
-    private boolean enabled;
 
+    @ColumnDefault("0")
+    private boolean expired;
+
+    @ColumnDefault("0")
+    private boolean locked;
+
+    @ColumnDefault("1")
+    private boolean enabled;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(

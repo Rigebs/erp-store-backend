@@ -2,6 +2,7 @@ package com.rige.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Getter
@@ -17,29 +18,34 @@ public class ProductEntity {
 
     private String name;
     private String description;
-    private Integer quantity;
+    private int quantity;
     private double purchasePrice;
     private double salePrice;
+    private String imageUrl;
+
+    @ColumnDefault("1")
     private boolean enabled;
+
+    @ColumnDefault("1")
     private boolean flag;
 
     @ManyToOne
     @JoinColumn(name = "brand_id")
-    private BrandEntity brandEntity;
+    private BrandEntity brand;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
-    private CategoryEntity categoryEntity;
+    private CategoryEntity category;
 
     @ManyToOne
     @JoinColumn(name = "unit_measure_id")
-    private UnitMeasureEntity unitMeasureEntity;
+    private UnitMeasureEntity unitMeasure;
 
     @ManyToOne
     @JoinColumn(name = "line_id")
-    private LineEntity lineEntity;
+    private LineEntity line;
 
     @ManyToOne
     @JoinColumn(name = "supplier_id")
-    private SupplierEntity supplierEntity;
+    private SupplierEntity supplier;
 }

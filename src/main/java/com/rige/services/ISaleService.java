@@ -1,13 +1,12 @@
 package com.rige.services;
 
-import com.rige.dto.SaleDto;
-import com.rige.dto.custom.FullSaleDetailsDto;
 import com.rige.dto.request.SaleRequest;
-
-import java.util.List;
+import com.rige.dto.response.SaleResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface ISaleService {
     void save(SaleRequest saleRequest);
-    List<SaleDto> findAllByUser(Long userId);
-    FullSaleDetailsDto findById(Long id);
+    Page<SaleResponse> findAll(Pageable pageable);
+    SaleResponse findById(Long id);
 }

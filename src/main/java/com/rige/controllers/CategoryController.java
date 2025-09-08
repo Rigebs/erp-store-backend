@@ -1,8 +1,8 @@
 package com.rige.controllers;
 
-import com.rige.dto.CategoryDto;
 import com.rige.dto.request.CategoryRequest;
 import com.rige.dto.response.ApiResponse;
+import com.rige.dto.response.CategoryResponse;
 import com.rige.services.ICategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -28,28 +28,17 @@ public class CategoryController {
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<Page<CategoryDto>>> findAll(
-            @PathVariable Long userId,
+    public ResponseEntity<ApiResponse<Page<CategoryResponse>>> findAll(
             @PageableDefault Pageable pageable) {
-        Page<CategoryDto> result = categoryService.findAll(userId, pageable);
+        Page<CategoryResponse> result = categoryService.findAll(pageable);
         return ResponseEntity.ok(
                 new ApiResponse<>(true, "Categories retrieved successfully", result)
         );
     }
 
-    @GetMapping("/from/{userId}/active")
-    public ResponseEntity<ApiResponse<Page<CategoryDto>>> findAllActive(
-            @PathVariable Long userId,
-            @PageableDefault Pageable pageable) {
-        Page<CategoryDto> result = categoryService.findAllActive(userId, pageable);
-        return ResponseEntity.ok(
-                new ApiResponse<>(true, "Active categories retrieved successfully", result)
-        );
-    }
-
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<CategoryDto>> findById(@PathVariable Long id) {
-        CategoryDto category = categoryService.findById(id);
+    public ResponseEntity<ApiResponse<CategoryResponse>> findById(@PathVariable Long id) {
+        CategoryResponse category = categoryService.findById(id);
         return ResponseEntity.ok(
                 new ApiResponse<>(true, "Category retrieved successfully", category)
         );
@@ -74,8 +63,8 @@ public class CategoryController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<ApiResponse<Void>> toggleStatus(@PathVariable Long id) {
-        categoryService.toggleStatus(id);
+    public ResponseEntity<ApiResponse<Void>> toggleEnabled(@PathVariable Long id) {
+        categoryService.toggleEnabled(id);
         return ResponseEntity.ok(
                 new ApiResponse<>(true, "Category status updated successfully", null)
         );
