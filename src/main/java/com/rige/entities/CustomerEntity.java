@@ -21,9 +21,9 @@ public class CustomerEntity {
 
     @OneToOne
     @JoinColumn(name = "person_id")
-    private PersonEntity personEntity;
+    private PersonEntity person;
 
     @OneToOne
     @JoinColumn(name = "company_id")
-    private CompanyEntity companyEntity;
+    private CompanyEntity company;
 }

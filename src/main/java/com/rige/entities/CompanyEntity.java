@@ -2,7 +2,6 @@ package com.rige.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Getter
@@ -21,7 +20,4 @@ public class CompanyEntity {
     private String address;
     private String phone;
     private String email;
-
-    @ColumnDefault("1")
-    private boolean enabled;
 }

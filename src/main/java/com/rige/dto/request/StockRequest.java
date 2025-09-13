@@ -11,5 +11,6 @@ public class StockRequest {
     private Long warehouseId;
     private Long targetWarehouseId;
     private int quantity;
+    private int minQuantity;
     private StockAction action;
 }
