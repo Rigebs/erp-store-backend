@@ -33,19 +33,7 @@ public class CustomerServiceImpl implements ICustomerService {
     public void save(CustomerRequest request) {
         CustomerEntity entity = customerMapper.toEntity(request);
 
-        if (request.getPerson() != null) {
-            PersonEntity person = personMapper.toEntity(request.getPerson());
-            personRepository.save(person);
-            entity.setPerson(person);
-        }
-
-        if (request.getCompany() != null) {
-            CompanyEntity company = companyMapper.toEntity(request.getCompany());
-            companyRepository.save(company);
-            entity.setCompany(company);
-        }
-
-        if (request.getPerson() == null && request.getCompany() == null) {
+        if (entity.getPerson() == null && entity.getCompany() == null) {
             throw new IllegalArgumentException("Customer must have either a Person or a Company");
         }
 

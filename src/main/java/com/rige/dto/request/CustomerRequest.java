@@ -6,5 +6,4 @@ import lombok.Data;
 public class CustomerRequest {
     private PersonRequest person;
     private CompanyRequest company;
-    private boolean enabled;
 }

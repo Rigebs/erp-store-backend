@@ -19,11 +19,11 @@ public class CustomerEntity {
     @ColumnDefault("1")
     private boolean enabled;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "person_id")
     private PersonEntity person;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "company_id")
     private CompanyEntity company;
 }
