@@ -20,10 +20,10 @@ public class SaleDetailEntity {
     private double totalPrice;
 
     @ManyToOne
-    @JoinColumn(name = "sale_id", nullable = false)
+    @JoinColumn(name = "sale_id")
     private SaleEntity sale;
 
     @ManyToOne
-    @JoinColumn(name = "product_id", nullable = false)
+    @JoinColumn(name = "product_id")
     private ProductEntity product;
 }

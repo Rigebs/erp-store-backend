@@ -1,5 +1,6 @@
 package com.rige.mappers;
 
+import com.rige.dto.request.SaleDetailRequest;
 import com.rige.dto.response.SaleDetailResponse;
 import com.rige.entities.SaleDetailEntity;
 import org.mapstruct.Mapper;
@@ -14,4 +15,7 @@ public interface ISaleDetailMapper {
     @Mapping(target = "product.unitMeasure", ignore = true)
     @Mapping(target = "product.brand", ignore = true)
     SaleDetailResponse toResponse(SaleDetailEntity saleDetail);
+
+    @Mapping(source = "productId", target = "product.id")
+    SaleDetailEntity toEntity(SaleDetailRequest request);
 }

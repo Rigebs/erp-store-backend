@@ -3,6 +3,7 @@ package com.rige.controllers;
 import com.rige.dto.request.CustomerRequest;
 import com.rige.dto.response.ApiResponse;
 import com.rige.dto.response.CustomerResponse;
+import com.rige.filters.CustomerFilter;
 import com.rige.services.ICustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -20,17 +21,24 @@ public class CustomerController {
     private final ICustomerService customerService;
 
     @PostMapping
-    public ResponseEntity<ApiResponse<Void>> save(@RequestBody CustomerRequest customerRequest) {
-        customerService.save(customerRequest);
+    public ResponseEntity<ApiResponse<CustomerResponse>> save(@RequestBody CustomerRequest customerRequest) {
+        var response = customerService.save(customerRequest);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(new ApiResponse<>(true, "Customer created successfully", null));
+                .body(new ApiResponse<>(true, "Customer created successfully", response));
     }
 
     @GetMapping
     public ResponseEntity<ApiResponse<Page<CustomerResponse>>> findAll(
+            @RequestParam(required = false) String query,
+            @RequestParam(required = false) Boolean enabled,
             @PageableDefault Pageable pageable) {
-        Page<CustomerResponse> result = customerService.findAll(pageable);
+
+        var filter = new CustomerFilter();
+        filter.setQuery(query);
+        filter.setEnabled(enabled);
+
+        Page<CustomerResponse> result = customerService.findAll(filter, pageable);
         return ResponseEntity.ok(
                 new ApiResponse<>(true, "Customers retrieved successfully", result)
         );

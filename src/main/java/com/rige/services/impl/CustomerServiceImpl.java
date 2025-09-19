@@ -6,6 +6,7 @@ import com.rige.entities.CompanyEntity;
 import com.rige.entities.CustomerEntity;
 import com.rige.entities.PersonEntity;
 import com.rige.exceptions.ResourceNotFoundException;
+import com.rige.filters.CustomerFilter;
 import com.rige.mappers.ICompanyMapper;
 import com.rige.mappers.ICustomerMapper;
 import com.rige.mappers.IPersonMapper;
@@ -13,6 +14,7 @@ import com.rige.repositories.ICompanyRepository;
 import com.rige.repositories.ICustomerRepository;
 import com.rige.repositories.IPersonRepository;
 import com.rige.services.ICustomerService;
+import com.rige.specifications.CustomerSpecification;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,7 +32,7 @@ public class CustomerServiceImpl implements ICustomerService {
     private final ICompanyRepository companyRepository;
 
     @Override
-    public void save(CustomerRequest request) {
+    public CustomerResponse save(CustomerRequest request) {
         CustomerEntity entity = customerMapper.toEntity(request);
 
         if (entity.getPerson() == null && entity.getCompany() == null) {
@@ -38,12 +40,13 @@ public class CustomerServiceImpl implements ICustomerService {
         }
 
         entity.setEnabled(true);
-        customerRepository.save(entity);
+        var saved = customerRepository.save(entity);
+        return customerMapper.toResponse(saved);
     }
 
     @Override
-    public Page<CustomerResponse> findAll(Pageable pageable) {
-        return customerRepository.findAll(pageable)
+    public Page<CustomerResponse> findAll(CustomerFilter filter, Pageable pageable) {
+        return customerRepository.findAll(CustomerSpecification.build(filter), pageable)
                 .map(customerMapper::toResponse);
     }
 

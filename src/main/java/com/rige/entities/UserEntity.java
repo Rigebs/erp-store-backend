@@ -36,6 +36,10 @@ public class UserEntity implements UserDetails {
     @ColumnDefault("1")
     private boolean enabled;
 
+    @ManyToOne
+    @JoinColumn(name = "warehouse_id")
+    private WarehouseEntity warehouse;
+
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "user_roles",

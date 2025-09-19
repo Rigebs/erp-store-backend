@@ -3,6 +3,7 @@ package com.rige.controllers;
 import com.rige.dto.request.ProductRequest;
 import com.rige.dto.response.ApiResponse;
 import com.rige.dto.response.ProductResponse;
+import com.rige.filters.ProductFilter;
 import com.rige.services.IProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -29,8 +30,31 @@ public class ProductController {
 
     @GetMapping
     public ResponseEntity<ApiResponse<Page<ProductResponse>>> findAll(
-            @PageableDefault Pageable pageable) {
-        Page<ProductResponse> result = productService.findAll(pageable);
+            @RequestParam(required = false) String query,
+            @RequestParam(required = false) Long categoryId,
+            @RequestParam(required = false) Long brandId,
+            @RequestParam(required = false) Long supplierId,
+            @RequestParam(required = false) Long unitMeasureId,
+            @RequestParam(required = false) Long lineId,
+            @RequestParam(required = false) Double minPrice,
+            @RequestParam(required = false) Double maxPrice,
+            @RequestParam(required = false) Boolean enabled,
+            @RequestParam(required = false) Boolean flag,
+            @PageableDefault Pageable pageable
+    ) {
+        ProductFilter filter = new ProductFilter();
+        filter.setQuery(query);
+        filter.setCategoryId(categoryId);
+        filter.setBrandId(brandId);
+        filter.setSupplierId(supplierId);
+        filter.setUnitMeasureId(unitMeasureId);
+        filter.setLineId(lineId);
+        filter.setMinPrice(minPrice);
+        filter.setMaxPrice(maxPrice);
+        filter.setEnabled(enabled);
+        filter.setFlag(flag);
+
+        Page<ProductResponse> result = productService.findAll(filter, pageable);
         return ResponseEntity.ok(
                 new ApiResponse<>(true, "Products retrieved successfully", result)
         );

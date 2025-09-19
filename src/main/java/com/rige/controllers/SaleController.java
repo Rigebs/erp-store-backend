@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 public class SaleController {
 
     private final ISaleService saleService;
-//
+
     @GetMapping
     public ResponseEntity<ApiResponse<Page<SaleResponse>>> findAll(@PageableDefault Pageable pageable) {
         Page<SaleResponse> result = saleService.findAll(pageable);
