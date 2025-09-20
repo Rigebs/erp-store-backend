@@ -11,8 +11,6 @@ import org.mapstruct.MappingTarget;
 public interface ICategoryMapper {
     CategoryResponse toResponse(CategoryEntity entity);
 
-    Category toModel(CategoryRequest request);
-
     CategoryEntity toEntity(CategoryRequest request);
 
     void updateFromRequest(CategoryRequest request, @MappingTarget Category entity);

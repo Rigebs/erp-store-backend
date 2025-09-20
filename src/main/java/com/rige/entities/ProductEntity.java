@@ -28,23 +28,23 @@ public class ProductEntity {
     @ColumnDefault("1")
     private boolean flag;
 
-    @ManyToOne
-    @JoinColumn(name = "brand_id")
-    private BrandEntity brand;
-
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private CategoryEntity category;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "brand_id")
+    private BrandEntity brand;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "unit_measure_id")
     private UnitMeasureEntity unitMeasure;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "line_id")
     private LineEntity line;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "supplier_id")
     private SupplierEntity supplier;
 }

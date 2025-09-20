@@ -4,9 +4,11 @@ import com.rige.dto.request.SaleRequest;
 import com.rige.dto.response.SaleResponse;
 import com.rige.entities.*;
 import com.rige.enums.MovementType;
+import com.rige.filters.SaleFilter;
 import com.rige.mappers.ISaleMapper;
 import com.rige.repositories.*;
 import com.rige.services.ISaleService;
+import com.rige.specifications.SaleSpecification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -17,7 +19,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -80,18 +87,24 @@ public class SaleServiceImpl implements ISaleService {
     }
 
     @Override
-    public Page<SaleResponse> findAll(Pageable pageable) {
-        Page<Long> idsPage = saleRepository.findAllIds(pageable);
-        List<SaleEntity> sales = saleRepository.findAllById(idsPage.getContent());
-        List<SaleResponse> saleResponses = sales.stream()
-                .map(saleMapper::toResponse)
-                .toList();
+    public Page<SaleResponse> findAll(SaleFilter filter, Pageable pageable) {
+        Page<Long> idsPage = saleRepository.findAllIds(SaleSpecification.build(filter), pageable);
+        List<Long> ids = idsPage.getContent();
 
-        return new PageImpl<>(
-                saleResponses,
-                pageable,
-                idsPage.getTotalElements()
-        );
+        List<SaleEntity> sales = ids.isEmpty()
+                ? Collections.emptyList()
+                : saleRepository.findAllWithDetailsAndPerson(ids);
+
+        Map<Long, SaleEntity> salesById = sales.stream()
+                .collect(Collectors.toMap(SaleEntity::getId, Function.identity()));
+
+        List<SaleResponse> saleResponses = ids.stream()
+                .map(salesById::get)
+                .filter(Objects::nonNull)
+                .map(saleMapper::toResponse)
+                .collect(Collectors.toList());
+
+        return new PageImpl<>(saleResponses, pageable, idsPage.getTotalElements());
     }
 
     @Override

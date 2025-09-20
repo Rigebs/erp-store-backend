@@ -1,6 +1,5 @@
 package com.rige.entities;
 
-
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -35,6 +34,10 @@ public class UserEntity implements UserDetails {
 
     @ColumnDefault("1")
     private boolean enabled;
+
+    @OneToOne
+    @JoinColumn(name = "employee_id")
+    private EmployeeEntity employee;
 
     @ManyToOne
     @JoinColumn(name = "warehouse_id")

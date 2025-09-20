@@ -16,5 +16,7 @@ public class SaleResponse {
     private Double tax;
     private Double discount;
     private boolean enabled;
+    private CustomerResponse customer;
+    private UserResponse cashier;
     private List<SaleDetailResponse> saleDetails;
 }
